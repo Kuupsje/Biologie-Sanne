@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Biologie oefenen – Sanne</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Spline+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#f5f2ea;--card:#fffdf7;--ink:#1d2b26;--soft:#5b6b64;--line:#ddd7c6;--acc:#2f7d5b;--acc2:#1f5a41;--mint:#e3f1ea;--good:#2e8b57;--goodbg:#e4f4ea;--bad:#c0392b;--badbg:#fbe9e6;--amber:#d99a1c}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:'Spline Sans',system-ui,-apple-system,Segoe UI,Arial,sans-serif;line-height:1.5}
+.wrap{max-width:860px;margin:0 auto;padding:22px 16px 60px}
+h1,h2,h3{font-family:'Fraunces',Georgia,serif}
+header{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+header h1{margin:0;font-size:2rem;color:var(--acc2)}
+header .sub{color:var(--soft);font-size:.95rem}
+.hidden{display:none!important}
+.btn{font:inherit;font-weight:600;border:0;border-radius:10px;padding:11px 18px;cursor:pointer;background:var(--acc);color:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.soft{background:var(--mint);color:var(--acc2)}
+.btn.ghost{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px}
+.seg{display:flex;gap:10px;flex-wrap:wrap}
+.seg button{flex:1 1 220px;text-align:left;font:inherit;background:var(--card);border:2px solid var(--line);border-radius:12px;padding:12px 14px;cursor:pointer}
+.seg button.on{border-color:var(--acc);background:var(--mint)}
+.seg b{display:block}.seg span{font-size:.85rem;color:var(--soft)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:14px}
+.tile{font:inherit;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;cursor:pointer;display:flex;flex-direction:column;gap:6px}
+.tile:hover{border-color:var(--acc);box-shadow:0 2px 10px rgba(47,125,91,.15)}
+.tile b{font-family:'Fraunces',Georgia,serif;font-size:1.05rem}
+.tile .par{font-size:.78rem;color:var(--acc2);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.tile .pc{font-size:.82rem;color:var(--soft)}
+.tile.exam{background:var(--acc2);color:#fff;border-color:var(--acc2)}
+.tile.exam .par,.tile.exam .pc{color:#cfe8dc}
+.bar{height:6px;background:#e8e3d3;border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),#6fbf9a)}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.ht{width:100%;border-collapse:collapse;font-size:.88rem}
+.ht th,.ht td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
+.soft{color:var(--soft)}
+.qhead{display:flex;justify-content:space-between;gap:10px;font-size:.85rem;color:var(--soft);margin-bottom:8px}
+.progress{height:6px;background:#e8e3d3;border-radius:4px;overflow:hidden;margin-bottom:16px}
+.progress i{display:block;height:100%;background:var(--acc);width:0}
+#qText{font-family:'Fraunces',Georgia,serif;font-size:1.2rem;font-weight:600;margin-bottom:14px;white-space:pre-wrap}
+.opt{display:block;width:100%;text-align:left;font:inherit;background:#fff;border:2px solid var(--line);border-radius:12px;padding:11px 14px;margin-bottom:9px;cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--acc)}
+.opt.sel{border-color:var(--acc);background:var(--mint)}
+.opt.right{border-color:var(--good);background:var(--goodbg)}
+.opt.wrong{border-color:var(--bad);background:var(--badbg)}
+.inp{width:100%;font:inherit;border:2px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff;margin-bottom:8px}
+.inp:focus{outline:none;border-color:var(--acc)}
+.lab{display:block;font-size:.85rem;color:var(--soft);margin:6px 0 4px}
+.fb{border-radius:12px;padding:14px;margin-top:14px}
+.fb.good{background:var(--goodbg);border:1px solid #b9e0c8}
+.fb.bad{background:var(--badbg);border:1px solid #efc3bc}
+.fb.neutral{background:var(--mint);border:1px solid #c5e0d2}
+.ft{font-weight:700;margin-bottom:6px;font-size:1.05rem}
+.fbody{margin-top:6px}
+.pre{white-space:pre-wrap}
+.stp{padding:3px 0}.stp.g{color:var(--good)}.stp.r{color:var(--bad)}
+.self{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+.btnrow{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.result{text-align:center}
+.bigscore{font-family:'Fraunces',Georgia,serif;font-size:3.4rem;color:var(--acc2);font-weight:700}
+.gr{display:inline-block;background:var(--mint);color:var(--acc2);font-weight:700;border-radius:20px;padding:6px 16px;margin:6px 0}
+.rv{text-align:left;border-left:5px solid var(--line);background:var(--card);border-radius:10px;padding:12px 14px;margin:10px 0;border-top:1px solid var(--line);border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.rv.g{border-left-color:var(--good)}.rv.r{border-left-color:var(--bad)}.rv.n{border-left-color:var(--amber)}
+.rq{font-weight:600;white-space:pre-wrap}.ra{margin-top:6px;font-size:.93rem}
+.overlay{position:fixed;inset:0;background:rgba(20,30,25,.55);display:none;align-items:flex-start;justify-content:center;padding:20px;overflow:auto;z-index:50}
+.overlay.on{display:flex}
+.sheet{background:var(--card);border-radius:16px;max-width:760px;width:100%;padding:22px;position:relative}
+.sheet h3{color:var(--acc2);margin:18px 0 6px}
+.sheet ul{padding-left:20px;margin:4px 0}
+.closex{position:absolute;right:12px;top:8px;border:0;background:transparent;font-size:1.8rem;cursor:pointer}
+.ct{border-collapse:collapse;font-size:.78rem;width:100%}
+.ct th,.ct td{border:1px solid var(--line);padding:3px 5px;text-align:center}
+footer{margin-top:24px;color:var(--soft);font-size:.82rem;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <header>
+  <div><h1>Biologie oefenen</h1><div class="sub">Hoofdstuk 2 Cellen · Sanne · 4 havo</div></div>
+  <div><button class="btn soft" onclick="openSheet()">Spiekbrief &amp; Binas-hulp</button></div>
+ </header>
+
+ <section id="home">
+  <div class="panel">
+   <div class="seg">
+    <button id="modeOef" onclick="setMode('oefenen')"><b>Oefenen</b><span>Na elke vraag meteen feedback en uitleg.</span></button>
+    <button id="modeToets" onclick="setMode('toets')"><b>Toets</b><span>Feedback pas aan het eind, net als op school. Daarna zie je bij elke vraag de uitleg.</span></button>
+   </div>
+   <p class="soft" style="margin:12px 0 0">Tip: doe eerst elke paragraaf in <b>Oefenen</b> en sluit af met de <b>Examen-mix</b> in <b>Toets</b>.</p>
+   <div class="tiles" id="tiles"></div>
+  </div>
+  <div class="panel">
+   <h3 style="margin-top:0">Je laatste sessies</h3>
+   <div id="hist"></div>
+   <div class="toolbar">
+    <button class="btn ghost" onclick="exportData()">Voortgang exporteren</button>
+    <button class="btn ghost" onclick="wipe()">Wis voortgang</button>
+   </div>
+  </div>
+ </section>
+
+ <section id="quiz" class="hidden">
+  <div class="panel">
+   <div class="qhead"><span id="qWhere"></span><span id="qCount"></span></div>
+   <div class="progress"><i id="qProg"></i></div>
+   <div id="qText"></div>
+   <div id="qBody"></div>
+   <div class="fb hidden" id="qFb"></div>
+   <div class="btnrow"><button class="btn" id="qBtn">Controleer</button><button class="btn ghost" onclick="if(confirm('Stoppen? Je voortgang van deze sessie gaat verloren.'))goHome()">Stoppen</button></div>
+  </div>
+ </section>
+
+ <section id="result" class="hidden">
+  <div class="panel result">
+   <div class="soft" id="rWhere"></div>
+   <h2 style="margin:6px 0">Klaar!</h2>
+   <div class="bigscore" id="rScore"></div>
+   <div class="gr" id="rGrade"></div>
+   <p class="soft" id="rNote"></p>
+   <div class="btnrow" style="justify-content:center">
+    <button class="btn" id="rRetry" onclick="retryWrong()">Oefen de foute vragen</button>
+    <button class="btn soft" onclick="goHome()">Ander onderwerp</button>
+   </div>
+  </div>
+  <div id="rDetail"></div>
+ </section>
+
+ <footer>Werkt offline · sluit het tabblad en open dit bestand opnieuw om verder te oefenen.<br>Gemaakt om te oefenen – controleer bij twijfel altijd je boek of Binas.</footer>
+</div>
+
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeSheet()">
+ <div class="sheet"><button class="closex" onclick="closeSheet()">×</button>
+  <h2 style="margin-top:0">Spiekbrief hoofdstuk 2</h2>
+  <div id="sheetBody"></div>
+ </div>
+</div>
+
+<script>
+/* ===== Biologie H2 Cellen – data, vragen en generatoren (Sanne, 4 havo) ===== */
+
+const TOPICS = [
+  {id:'t1', par:'2.1', title:'Organisatieniveaus & emergente eigenschappen', goals:'Leerdoel 1–2'},
+  {id:'t2', par:'2.1', title:'Celmembraan, cytoplasma & organellen', goals:'Leerdoel 3'},
+  {id:'t3', par:'2.2', title:'DNA, RNA, eiwitsynthese & mutaties', goals:'Leerdoel 4–6'},
+  {id:'t4', par:'2.2', title:'Celcyclus, DNA-replicatie & celdifferentiatie', goals:'Leerdoel 7–8'},
+  {id:'t5', par:'2.3', title:'Chromosomen, mitose & kanker', goals:'Leerdoel 9–11'},
+  {id:'t6', par:'2.4', title:'Biotechnologie, stamcellen & transplantatie', goals:'Leerdoel 12–14'},
+  {id:'t7', par:'2.5', title:'Bacteriën, schimmels & planten', goals:'Leerdoel 15–17'}
+];
+
+/* ---------- helpers ---------- */
+function ri(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+/* ---------- codontabel (Binas 71G) ---------- */
+const AA3 = {F:'Phe',L:'Leu',S:'Ser',Y:'Tyr',C:'Cys',W:'Trp',P:'Pro',H:'His',Q:'Gln',R:'Arg',I:'Ile',M:'Met',T:'Thr',N:'Asn',K:'Lys',V:'Val',A:'Ala',D:'Asp',E:'Glu',G:'Gly','*':'Stop'};
+const CODONS = (function(){
+  const B='UCAG', S='FFLLSSSSYY**CC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG';
+  const t={};let i=0;
+  for(const a of B)for(const b of B)for(const c of B){t[a+b+c]=AA3[S[i]];i++;}
+  return t;
+})();
+const COD_NONSTOP = Object.keys(CODONS).filter(c=>CODONS[c]!=='Stop' && c!=='AUG');
+const RNA2DNA = {A:'T',U:'A',G:'C',C:'G'};   // DNA-matrijs bij RNA
+const DNA2DNA = {A:'T',T:'A',C:'G',G:'C'};   // complementaire DNA-streng
+function triplets(s){return s.match(/.{1,3}/g).join(' ');}
+
+/* ---------- STATISCHE VRAGEN ----------
+   mc : o[0] is het juiste antwoord (wordt geschud)
+   tf : c = true/false
+   open: m = modelantwoord
+*/
+const STATIC = {};
+
+STATIC.t1 = [
+ {type:'mc', q:'Wat is een emergente eigenschap?',
+  o:['Een eigenschap die ontstaat door samenwerking van onderdelen op een hoger organisatieniveau en die de losse onderdelen niet hebben',
+     'Een eigenschap die elk los onderdeel ook heeft, maar dan sterker',
+     'Een eigenschap die alleen bij moleculen voorkomt',
+     'Een eigenschap die een organisme van zijn ouders erft'],
+  e:'Denk aan ‘meer dan de som der delen’. Losse planken en balken zijn geen stoel: pas door samenwerking ontstaat iets waar je op kunt zitten. Hardlopen is hetzelfde: spieren, zenuwen en hersenen kunnen dat niet apart, maar samen wel. Zo’n nieuwe eigenschap is niet af te leiden uit één van de onderdelen.'},
+ {type:'mc', q:'Welke situatie is een voorbeeld van een emergente eigenschap?',
+  o:['Een bijenkorf waarin bijen samenwerken om hun kolonie te onderhouden',
+     'Een tulp die groeit door water en zonlicht',
+     'Een rivier die door een vallei stroomt'],
+  e:'Bij de bijenkorf werken veel bijen samen en ontstaat iets wat een enkele bij niet kan: een kolonie die zichzelf in stand houdt. Een groeiende tulp en een stromende rivier zijn gewoon gevolgen van water, zonlicht of zwaartekracht; daar hoort geen samenwerking van onderdelen bij die iets nieuws oplevert.'},
+ {type:'open', q:'Een boom bestaat onder andere uit wortels, een stam, takken en bladeren. Licht toe dat de boom een emergente eigenschap heeft.',
+  m:'Door de samenwerking van de onderdelen kan de boom als geheel dingen die de losse onderdelen niet kunnen. Voorbeeld: wortels nemen water op, de stam en takken transporteren het en de bladeren maken met licht glucose. Alleen samen kan de boom groeien en leven. Die eigenschap zit niet in één onderdeel apart: dat is een emergente eigenschap.',
+  e:'Een goed antwoord noemt (1) meerdere onderdelen, (2) dat ze samenwerken en (3) dat er iets ontstaat wat een los onderdeel niet heeft.'},
+ {type:'open', q:'Maak een bijschrift bij de afbeelding met losse planken en balken die een stoel worden. Gebruik de term emergente eigenschap.',
+  m:'Door de samenwerking (samenstelling) van losse planken en balken ontstaat een stoel. Je kunt op een stoel zitten; dat is een emergente eigenschap die de losse onderdelen niet hebben.',
+  e:'Je moet de term gebruiken én aangeven dat de eigenschap pas op het hogere niveau (stoel) ontstaat en niet in de losse onderdelen zit.'},
+ {type:'open', q:'Een combinatie van de gassen stikstof, zuurstof en koolstofdioxide vormt de luchtdruk in de longblaasjes. Licht toe dat luchtdruk geen emergente eigenschap is.',
+  m:'De luchtdruk is gewoon de optelsom van de drukken van de afzonderlijke gassen: elk gas veroorzaakt zelf al druk. De eigenschap zit dus al in de onderdelen en is eruit af te leiden. Er ontstaat niets nieuws door samenwerking, dus geen emergente eigenschap.',
+  e:'Het verschil met een echte emergente eigenschap: die is niet af te leiden uit de onderdelen. Bij druk tel je de bijdragen gewoon op.'},
+ {type:'tf', q:'Een cel is het laagste organisatieniveau waarop alle levenskenmerken aanwezig zijn.', c:true,
+  e:'Klopt. Een cel neemt stoffen op, groeit, deelt, beweegt en reageert op veranderingen. Een organel of molecuul kan niet alles zelf; die horen bij een lager niveau en hebben niet alle levenskenmerken.'},
+ {type:'tf', q:'Een populatie bestaat uit organismen van verschillende soorten die in hetzelfde gebied leven.', c:false,
+  e:'Niet waar. Een populatie is een groep soortgenoten (dezelfde soort) in hetzelfde gebied. Verschillende soorten samen mét de levenloze natuur vormen een ecosysteem.'},
+ {type:'tf', q:'Zenuwcellen geven impulsen door aan elkaar. Dankzij die impulsen onthoud je de leerstof van een paragraaf: dit is een emergente eigenschap.', c:true,
+  e:'Klopt. Onthouden ontstaat door de samenwerking van heel veel zenuwcellen. Eén zenuwcel kan dat niet; de eigenschap zit dus pas op het hogere niveau.'},
+ {type:'tf', q:'Water is bij 20 °C vloeibaar, terwijl waterstof en zuurstof bij 20 °C gassen zijn. Dit is een voorbeeld van een emergente eigenschap.', c:true,
+  e:'Klopt. Door de samenstelling van de atomen tot watermoleculen ontstaat een eigenschap (vloeibaar) die waterstof en zuurstof apart niet hebben.'},
+ {type:'mc', q:'Wat is een orgaan?',
+  o:['Een groep verschillende weefsels die samenwerken aan een of meer taken',
+     'Een groep cellen met dezelfde bouw en functie',
+     'Een onderdeel van een cel met een bepaalde functie',
+     'Alle organen die aan dezelfde taak werken'],
+  e:'Orgaan = verschillende weefsels samen (bijvoorbeeld de maag). Dezelfde bouw en functie = weefsel. Onderdeel van een cel = organel. Alle organen met dezelfde taak = orgaanstelsel.'},
+ {type:'mc', q:'Wat is een ecosysteem?',
+  o:['Een begrensd gebied met organismen die relaties hebben met elkaar en met de levenloze natuur',
+     'Een groep soortgenoten in hetzelfde gebied',
+     'Alle organismen op aarde samen',
+     'Een groep organen die dezelfde taak heeft'],
+  e:'Het woord ‘levenloze natuur’ maakt het verschil met een populatie. Alle ecosystemen van de planeet samen heten systeem Aarde.'}
+];
+
+STATIC.t2 = [
+ {type:'mc', q:'Waaruit is een celmembraan opgebouwd?',
+  o:['Een dubbele laag fosfolipiden met cholesterol en membraaneiwitten',
+     'Een enkele laag cellulose met eiwitten',
+     'Een dubbele laag eiwitten met DNA',
+     'Een laag chitine met fosfolipiden'],
+  e:'Fosfolipiden vormen de dubbele laag; daartussen zitten cholesterol en eiwitten. Cellulose en chitine zijn stoffen van celwanden, niet van het celmembraan.'},
+ {type:'open', q:'Noteer de functie van de fosfolipiden in het celmembraan.',
+  m:'De dubbele laag fosfolipiden (vetachtige stoffen) scheidt het water buiten de cel van het water binnen de cel. Daardoor kunnen stoffen niet zomaar de cel in of uit.',
+  e:'Sleutelwoord: scheiden. De laag vetachtige stoffen houdt het water van binnen en buiten uit elkaar.'},
+ {type:'open', q:'Noteer een verschil tussen receptoreiwitten en transporteiwitten.',
+  m:'Transporteiwitten hebben een opening (membraanporie) waar specifieke stoffen doorheen kunnen: de stof gaat de cel in of uit. Receptoreiwitten maken aan de buitenzijde contact met specifieke stoffen (bijv. hormonen); die stoffen komen de cel niet in, maar zetten wel een reactie in de cel in gang.',
+  e:'Transport = stof gaat door het membraan. Receptor = stof bindt aan de buitenkant en geeft een signaal door.'},
+ {type:'mc', q:'Welke stoffen kunnen het celmembraan gemakkelijk passeren zonder transporteiwit?',
+  o:['Koolstofdioxide (CO₂) en zuurstof (O₂)','Glucose en aminozuren','Hormonen','Eiwitten en DNA'],
+  e:'Alleen CO₂ en O₂ gaan er gemakkelijk doorheen. Andere stoffen hebben een transporteiwit nodig; hormonen binden aan receptoreiwitten en komen de cel niet in.'},
+ {type:'mc', q:'Welke taak heeft cholesterol in het celmembraan?',
+  o:['Het beïnvloedt de vloeibaarheid van het membraan','Het maakt eiwitten','Het slaat energie op in ATP','Het bevat de erfelijke informatie'],
+  e:'Cholesterol is een vetachtige stof die de vloeibaarheid van membranen beïnvloedt. Eiwitten maken doe je met ribosomen, ATP maken mitochondriën en DNA zit in de kern.'},
+ {type:'mc', q:'Welke weg volgt een eiwit dat de cel moet verlaten?',
+  o:['Ribosoom aan het ruw ER → ER → golgisysteem → transportblaasje',
+     'Golgisysteem → ribosoom → lysosoom → mitochondrium',
+     'Kern → mitochondrium → ER → celwand',
+     'Lysosoom → ER → golgisysteem → ribosoom'],
+  e:'Ribosomen maken het eiwit, het ER vormt een transportnetwerk, het golgisysteem sorteert en verpakt in transportblaasjes en die brengen het eiwit naar de bestemming (bijvoorbeeld het celmembraan).'},
+ {type:'tf', q:'Ribosomen liggen alleen vast aan het ruw endoplasmatisch reticulum.', c:false,
+  e:'Niet waar. Ribosomen komen ook als losse korreltjes in het cytoplasma voor.'},
+ {type:'tf', q:'De meeste organellen zijn met een gewone lichtmicroscoop goed te zien.', c:false,
+  e:'Niet waar. De meeste organellen zijn alleen met een elektronenmicroscoop te zien.'},
+ {type:'mc', q:'Wat doen mitochondriën?',
+  o:['Ze breken energierijke moleculen zoals glucose af en slaan de energie op in ATP',
+     'Ze maken eiwitten uit aminozuren',
+     'Ze verteren grote deeltjes en oude organellen',
+     'Ze sorteren en verpakken eiwitten'],
+  e:'Mitochondriën zijn de energiecentrale van de cel: afbraak van glucose, energie opslaan in ATP. Eiwitten maken = ribosomen; verteren = lysosomen; sorteren en verpakken = golgisysteem.'},
+ {type:'mc', q:'Waaruit bestaat het cytoskelet en wat doet het?',
+  o:['Uit draden van structuureiwitten; het geeft de cel vorm en vormt transportbanen voor blaasjes',
+     'Uit cellulose; het geeft de cel een stevige wand',
+     'Uit fosfolipiden; het scheidt de cel van de omgeving',
+     'Uit DNA; het bewaart de erfelijke informatie'],
+  e:'De eiwitdraden geven vorm aan de cel, transportblaasjes bewegen er langs naar hun bestemming en ze spelen een rol bij de celdeling.'},
+ {type:'mc', q:'Wat is het cytoplasma?',
+  o:['Het celplasma: grotendeels water met opgeloste stoffen, waarin veel chemische reacties plaatsvinden',
+     'Het vetachtige laagje om de cel',
+     'De ruimte binnen de kern met het DNA',
+     'Een organel dat eiwitten verpakt'],
+  e:'Het cytoplasma ligt binnen het celmembraan en bevat de organellen. Het bestaat voor een groot deel uit water met opgeloste stoffen.'}
+];
+
+STATIC.t3 = [
+ {type:'mc', q:'Uit welke drie delen bestaat een DNA-nucleotide?',
+  o:['Een fosfaatgroep, de suiker deoxyribose en een stikstofbase','Een fosfaatgroep, de suiker ribose en een stikstofbase','Een aminozuur, een fosfaatgroep en glucose','Een stikstofbase, een eiwit en cellulose'],
+  e:'Nucleotiden zijn de bouwstenen van DNA. In DNA zit deoxyribose; ribose is de suiker van RNA. Nucleotiden bevatten geen aminozuren.'},
+ {type:'mc', q:'Welke basenparen komen in DNA voor?',
+  o:['A–T en C–G','A–C en T–G','A–G en C–T','A–U en C–G'],
+  e:'In DNA zit tegenover een A altijd een T en tegenover een C altijd een G. Een A–U paar komt alleen voor als RNA aan DNA koppelt.'},
+ {type:'mc', q:'Welke drie verschillen bestaan er tussen RNA en DNA?',
+  o:['RNA is enkelstrengs en korter, bevat uracil (U) in plaats van T en bevat de suiker ribose',
+     'RNA is dubbelstrengs, bevat uracil en de suiker deoxyribose',
+     'RNA is enkelstrengs, bevat thymine en de suiker ribose',
+     'RNA is langer dan DNA, bevat uracil en de suiker ribose'],
+  e:'Drie verschillen: (1) RNA is kort en bestaat uit één streng; (2) RNA heeft U in plaats van T (U koppelt met A); (3) RNA heeft ribose in plaats van deoxyribose.'},
+ {type:'mc', q:'Wat is een gen?',
+  o:['Een stuk DNA met de informatie voor het maken van één eiwit','Een stuk RNA dat de kern verlaat','Een groep van drie stikstofbasen','Een chromosoom met twee chromatiden'],
+  e:'Een gen is een stukje DNA met de code voor een eiwit. Een groep van drie basen is een codon (in RNA).'},
+ {type:'tf', q:'Ongeveer 99% van het menselijk DNA bevat geen genen.', c:true,
+  e:'Klopt. Mensen hebben ongeveer 20 000 genen, maar zo’n 99% van het DNA is niet-coderend. Dat deel bevat waarschijnlijk de informatie om genen aan en uit te zetten.'},
+ {type:'mc', q:'Wat is een codon?',
+  o:['Een groep van drie opeenvolgende stikstofbasen in RNA die codeert voor één aminozuur','Een groep van twee basen die een basenpaar vormt','Een stuk DNA dat een heel eiwit codeert','Een enzym dat RNA kopieert'],
+  e:'Een ribosoom leest het RNA in groepjes van drie basen. Elk codon codeert voor één aminozuur (of is een stopcodon).'},
+ {type:'mc', q:'Waar begint het aflezen van RNA door een ribosoom?',
+  o:['Bij het startcodon AUG (het aminozuur methionine)','Bij een stopcodon','Bij het codon UAA','Bij een willekeurig codon'],
+  e:'Het aflezen begint altijd bij AUG. Dat codeert voor methionine (Met), altijd het eerste aminozuur van het gevormde eiwit.'},
+ {type:'mc', q:'Welke codons zijn stopcodons?',
+  o:['UAA, UAG en UGA','AUG, GUA en AAU','UUU, UUC en UUA','TAA, TAG en TGA'],
+  e:'Bij een stopcodon stopt het aflezen: ze coderen voor geen enkel aminozuur. Let op: in RNA staat U, niet T.'},
+ {type:'mc', q:'Waardoor ontstaat variatie tussen eiwitten?',
+  o:['Door de volgorde en het aantal aminozuren én door de manier van vouwen','Alleen door het aantal aminozuren','Alleen doordat er 40 verschillende aminozuren bestaan','Door de hoeveelheid DNA in de cel'],
+  e:'Cellen gebruiken maar twintig verschillende aminozuren. Variatie ontstaat door volgorde en aantal, en ook door de manier waarop de keten vouwt.'},
+ {type:'mc', q:'Wat is een puntmutatie?',
+  o:['Een verandering in één basenpaar van het DNA','Een verandering in het aantal DNA-moleculen per celkern','Een verdubbeling van het hele DNA in de S-fase','Het verdwijnen van het kernmembraan'],
+  e:'Een puntmutatie raakt één basenpaar (bijvoorbeeld A–T wordt C–G), waardoor een ander aminozuur terecht kan komen. Een verandering in het aantal DNA-moleculen heet genoommutatie.'},
+ {type:'mc', q:'Mensen met het syndroom van Down hebben 47 DNA-moleculen per celkern in plaats van 46. Wat voor mutatie is dit?',
+  o:['Een genoommutatie','Een puntmutatie','Een stille mutatie','Geen mutatie, dit is gewone variatie'],
+  e:'Bij een genoommutatie verandert het aantal DNA-moleculen per celkern. Een puntmutatie betreft maar één basenpaar.'},
+ {type:'tf', q:'De meeste mutaties zijn ernstig, omdat DNA zich niet kan herstellen.', c:false,
+  e:'Niet waar. Gelukkig herstellen cellen de meeste veranderingen zelf. Vaak gaat het bovendien om kleine veranderingen. Ernstiger is het als grote stukken DNA verdwijnen, verdubbelen of omgekeerd terechtkomen: dan kunnen genen hun werking verliezen.'},
+ {type:'tf', q:'Een menselijke celkern bevat 46 DNA-moleculen.', c:true,
+  e:'Klopt: vrijwel elke menselijke celkern heeft 46 DNA-moleculen met samen een lengte van zo’n 2 meter.'}
+];
+
+STATIC.t4 = [
+ {type:'mc', q:'Wat is de juiste volgorde van de fasen van de celcyclus?',
+  o:['G₁ → S → G₂ → M','S → G₁ → M → G₂','G₁ → G₂ → S → M','M → G₁ → G₂ → S'],
+  e:'G₁ (groei) → S (DNA verdubbelt) → G₂ (voorbereiding, controle) → M (mitose). G₁, S en G₂ samen heten interfase.'},
+ {type:'mc', q:'In welke fase verdubbelt het DNA?',
+  o:['In de S-fase','In de G₁-fase','In de G₂-fase','In de M-fase'],
+  e:'S staat voor synthese: elk DNA-molecuul wordt gekopieerd. In G₁ groeit de cel, in G₂ maakt ze organellen en eiwitten en controleert ze het DNA, in de M-fase wordt het DNA verdeeld.'},
+ {type:'mc', q:'Wat gebeurt er in de G₂-fase?',
+  o:['De cel groeit, maakt organellen en eiwitten aan en controleert of het DNA juist gekopieerd is','Het DNA verdubbelt','De chromatiden worden uit elkaar getrokken','De cel specialiseert zich tot spiercel'],
+  e:'G₂ is de voorbereiding op de mitose. Is het DNA goed gekopieerd, dan volgt de M-fase; zo niet, dan gaat de cel dood of wordt het hersteld.'},
+ {type:'mc', q:'Wat is de G₀-fase?',
+  o:['Een rustfase waarin een cel niet deelt en zich kan specialiseren','Een snelle deelfase','De fase waarin het DNA verdubbelt','De fase na de telofase waarin de cel doodgaat'],
+  e:'Na de deling kan een dochtercel in rust gaan (G₀), zich verder differentiëren of een nieuwe celcyclus starten.'},
+ {type:'mc', q:'Waarom verdubbelt het DNA vóór de celdeling?',
+  o:['Zodat beide dochtercellen de complete erfelijke informatie krijgen','Zodat de cel twee keer zoveel eiwitten kan maken','Zodat de cel kleiner wordt','Zodat de kern kan verdwijnen'],
+  e:'Zonder verdubbeling zouden de dochtercellen elk maar de helft van het DNA krijgen. Na replicatie zijn er twee identieke DNA-moleculen, één voor elke dochterkern.'},
+ {type:'mc', q:'Hoe verloopt de DNA-replicatie in de goede volgorde?',
+  o:['Bindingen A–T en C–G breken, vrije nucleotiden koppelen aan de oude strengen, er ontstaan twee identieke DNA-moleculen',
+     'Vrije nucleotiden koppelen aan elkaar, daarna breken de oude strengen, daarna ontstaat RNA',
+     'De oude strengen verdwijnen, er ontstaan twee verschillende DNA-moleculen',
+     'RNA kopieert het gen en verlaat de kern'],
+  e:'De twee strengen gaan uiteen als een ritssluiting; losse nucleotiden (met suiker en fosfaat) koppelen aan de juiste base van de oude streng. Het resultaat zijn twee complete, identieke DNA-moleculen.'},
+ {type:'mc', q:'Wat is celdifferentiatie?',
+  o:['Het proces waarbij cellen van vorm veranderen en een bepaalde functie krijgen doordat bepaalde genen aan of uit staan',
+     'De verdubbeling van het DNA in de S-fase',
+     'Het splitsen van de chromatiden',
+     'Het ontstaan van een tumor'],
+  e:'Door genexpressie staan in elk celtype andere genen aan. Zo wordt een cel een spiercel, zenuwcel of beencel, elk met een eigen vorm en functie.'},
+ {type:'tf', q:'Elke cel in je lichaam heeft andere genen, daarom zijn er verschillende celtypen.', c:false,
+  e:'Niet waar. Vrijwel alle cellen hebben hetzelfde DNA. Het verschil zit in welke genen actief zijn (genexpressie).'},
+ {type:'tf', q:'Je lichaam gebruikt celdeling voor groei én om slijtage op te vangen.', c:true,
+  e:'Klopt. Je wordt langer door een groter aantal cellen, en huid en darmslijmvlies slijten snel: dat los je op met celdeling.'},
+ {type:'mc', q:'Wat vormen de G₁-, S- en G₂-fase samen?',
+  o:['De interfase','De mitose','De celdeling','De M-fase'],
+  e:'Interfase = de tijd tussen twee delingen: groeien, DNA verdubbelen en voorbereiden. De M-fase (mitose) is de eigenlijke verdeling van het DNA.'}
+];
+
+STATIC.t5 = [
+ {type:'mc', q:'Hoe is een chromosoom (na de S-fase) opgebouwd?',
+  o:['Uit twee identieke chromatiden die bij het centromeer aan elkaar zitten; het DNA is gewikkeld rond kleine eiwitten',
+     'Uit twee verschillende DNA-moleculen die bij de kern aan elkaar zitten',
+     'Uit één enkelvoudige DNA-streng zonder eiwitten',
+     'Uit RNA dat rond cholesterol gewikkeld is'],
+  e:'In de S-fase verdubbelt het DNA; aan het begin van de M-fase rolt het strak op. Elk chromosoom bestaat dan uit twee identieke chromatiden die samenhangen in het centromeer.'},
+ {type:'mc', q:'Waarom spiraliseert het DNA aan het begin van de M-fase?',
+  o:['Om te voorkomen dat de DNA-moleculen tijdens de deling in de knoop raken en beschadigen','Om meer eiwitten te kunnen maken','Om het DNA te verdubbelen','Om het kernmembraan te laten verdwijnen'],
+  e:'Lange, dunne DNA-moleculen zouden tijdens de deling gemakkelijk in de knoop raken. Opgerolde chromosomen zijn compact en bovendien met een lichtmicroscoop zichtbaar.'},
+ {type:'mc', q:'Welke volgorde hebben de fasen van de mitose?',
+  o:['Profase → metafase → anafase → telofase','Metafase → profase → telofase → anafase','Profase → anafase → metafase → telofase','Telofase → profase → metafase → anafase'],
+  e:'Handig geheugensteuntje: PMAT. Profase (spoelfiguur, kernmembraan weg), metafase (chromosomen in het midden), anafase (chromatiden uit elkaar), telofase (twee nieuwe kernen).'},
+ {type:'mc', q:'Welke volgorde van gebeurtenissen klopt?',
+  o:['DNA-replicatie → spiraliseren → chromosomen in het midden → trekdraden trekken aan chromatiden',
+     'Spiraliseren → DNA-replicatie → trekdraden trekken → chromosomen in het midden',
+     'Chromosomen in het midden → DNA-replicatie → spiraliseren → trekdraden trekken',
+     'Trekdraden trekken → chromosomen in het midden → spiraliseren → DNA-replicatie'],
+  e:'Eerst moet er DNA zijn om te verdelen (replicatie, S-fase). Dan spiraliseert het (begin M-fase), liggen de chromosomen in het midden (metafase) en trekken de trekdraden de chromatiden uit elkaar (anafase).'},
+ {type:'mc', q:'Plantenkwekers kweken planten met het dubbele aantal chromosomen in hun cellen. Hoe maken ze zulke cellen?',
+  o:['Ze voegen een stof toe waardoor de delende cel geen spoelfiguur maakt',
+     'Ze voegen een stof toe waardoor er extra DNA-aanmaak is in de cel',
+     'Ze voegen een stof toe waardoor er geen kernmembranen kunnen ontstaan'],
+  e:'Zonder spoelfiguur (trekdraden) kunnen de chromatiden niet naar de polen worden getrokken. Het DNA is wel verdubbeld, maar de cel kan het niet verdelen: de kern houdt het dubbele aantal chromosomen. Extra DNA-aanmaak zou geen hele chromosomen opleveren, en zonder kernmembranen blijven de chromosomen niet in een nette kern.'},
+ {type:'mc', q:'Wat gebeurt er in de anafase?',
+  o:['De trekdraden verkorten, het centromeer splitst en de chromatiden gaan als chromosomen naar de polen','De chromosomen komen in het midden van de cel te liggen','Rond beide groepen chromosomen vormt zich een kernmembraan','Het kernmembraan verdwijnt en het spoelfiguur ontstaat'],
+  e:'Anafase = uit elkaar. De trekdraden trekken van twee kanten aan het centromeer; elke chromatide gaat als compleet chromosoom naar één kant. De andere antwoorden zijn metafase, telofase en profase.'},
+ {type:'mc', q:'Wat gebeurt er in de telofase?',
+  o:['De chromosomen despiraliseren en rond beide groepen vormt zich een kernmembraan','De chromosomen spiraliseren','De chromatiden worden gekopieerd','De cel gaat in de G₀-fase'],
+  e:'Telofase is bijna het omgekeerde van de profase: de chromosomen rollen weer af en er komen twee kernen. Daarna splitst de cel in twee dochtercellen.'},
+ {type:'mc', q:'Wat is een tumor?',
+  o:['Een gezwel van cellen die ongecontroleerd delen','Een cel die geprogrammeerd doodgaat','Een mutatie in één basenpaar','Een cel in de G₀-fase'],
+  e:'Een tumor ontstaat als cellen ongecontroleerd gaan delen. Goedaardig: langzame groei, ingesloten door bindweefsel (bijv. een wrat). Kwaadaardig: kanker.'},
+ {type:'open', q:'Noteer een verschil tussen een goedaardige en een kwaadaardige tumor.',
+  m:'Een goedaardige tumor groeit langzaam en is ingesloten door bindweefsel. Een kwaadaardige tumor (kanker) dringt omliggende weefsels binnen en kan uitzaaien via bloed of lymfe naar andere organen.',
+  e:'Noem één duidelijk verschil: ingesloten/langzaam versus binnendringen en uitzaaien.'},
+ {type:'open', q:'Geprogrammeerde celdood is een soort noodrem in de cel. Licht dit toe.',
+  m:'Een cel controleert onder andere in de G₂-fase het verdubbelde DNA op fouten. Is er een onherstelbare fout, dan geeft de cel zichzelf de instructie om dood te gaan. Zo wordt voorkomen dat cellen met fouten blijven delen en schade aan het organisme veroorzaken.',
+  e:'Kernpunten: controle van het DNA, onherstelbare fout, cel vernietigt zichzelf, voorkomt schade/tumorvorming.'},
+ {type:'mc', q:'Door welke mutaties kan ongecontroleerde celdeling ontstaan?',
+  o:['Door mutaties in regelgenen: genen die de celdeling remmen of stimuleren','Door mutaties in genen voor haarkleur','Door een tekort aan glucose','Door een te dunne celwand'],
+  e:'Regelgenen maken eiwitten die processen als celdeling afremmen of stimuleren. Raakt zo’n gen beschadigd, dan werkt de rem niet meer en kunnen cellen ongecontroleerd delen.'},
+ {type:'mc', q:'Welke factoren kunnen de kans op een tumor verhogen?',
+  o:['Mutagene straling (zoals uv) en mutagene stoffen (zoals alcohol, roken)','Alleen erfelijke factoren','Het eten van glucose','Te veel water drinken'],
+  e:'Mutagene straling en stoffen veroorzaken mutaties in het DNA. Leefstijl kan dus direct verband houden met tumorvorming: roken, alcoholgebruik en te veel zonnen verhogen de kans.'},
+ {type:'mc', q:'Waarom krijgen mensen bij chemotherapie vaak haaruitval?',
+  o:['De stoffen tasten de mitose aan, ook van gezonde, snel delende cellen zoals haarzakcellen','Omdat de haarzakcellen zich specialiseren tot kankercellen','Omdat chemotherapie het DNA verdubbelt','Omdat het kernmembraan van haarcellen verdwijnt'],
+  e:'Chemotherapie beïnvloedt de mitose van kankercellen, maar helaas ook van gezonde cellen die gecontroleerd delen. Haarzakcellen delen snel, dus die raken beschadigd. Andere bijwerkingen: bloedarmoede en slechte opname van voedingsstoffen in de darm.'},
+ {type:'tf', q:'Een wrat is een voorbeeld van een kwaadaardige tumor.', c:false,
+  e:'Niet waar. Een wrat is een goedaardige tumor: de huidcellen zijn ‘op hol geslagen’ na besmetting met een wrattenvirus, maar de groei is langzaam en ingesloten door bindweefsel.'},
+ {type:'mc', q:'Welke controlepunten kent de celcyclus?',
+  o:['Tijdens de G₁-fase, vlak voor de M-fase (G₂) en tijdens de M-fase (metafase)','Alleen aan het einde van de telofase','Alleen tijdens de S-fase','Alleen tijdens de G₀-fase'],
+  e:'In bijna elke fase vindt controle plaats. In G₂ wordt het DNA op fouten gecontroleerd; in de metafase wordt gekeken of alle eiwitdraden van de spoelfiguur aan de centromeren vastzitten, pas dan splitsen de chromosomen.'}
+];
+
+STATIC.t6 = [
+ {type:'mc', q:'Wat is een plasmide?',
+  o:['Een klein, ringvormig DNA-molecuul in bacteriën','Een organel in plantencellen','Een stuk RNA dat de kern verlaat','Een eiwit in het celmembraan'],
+  e:'Plasmiden liggen los in het cytoplasma van bacteriën, naast het grote cirkelvormige chromosoom. Onderzoekers kunnen er een menselijk gen in zetten.'},
+ {type:'mc', q:'Wat is recombinant-DNA?',
+  o:['DNA dat kunstmatig is samengesteld uit stukken DNA van verschillende organismen','DNA dat zichzelf verdubbelt','DNA van een bacterie dat gemuteerd is','RNA dat omgezet is in DNA'],
+  e:'Bij de insulineproductie is het menselijk insulinegen gecombineerd met plasmide-DNA: dat is recombinant-DNA.'},
+ {type:'mc', q:'Wat is genetische modificatie?',
+  o:['Het aanpassen van het DNA van een organisme','Het kweken van stamcellen','Het toedienen van insuline','Het verdubbelen van chromosomen'],
+  e:'Genetische modificatie = DNA van een organisme aanpassen, bijvoorbeeld een bacterie een menselijk gen geven. Het gebruik van organismen voor de productie van stoffen is biotechnologie.'},
+ {type:'open', q:'Wanneer is een bacterie genetisch gemodificeerd?',
+  m:'Wanneer het DNA van de bacterie is aangepast, bijvoorbeeld doordat er een gen van een ander organisme (zoals het menselijk insulinegen in een plasmide) in is gebracht.',
+  e:'Belangrijk: het DNA van de bacterie is veranderd door er DNA van buiten bij te voegen.'},
+ {type:'open', q:'Leg uit om welke reden onderzoekers niet het DNA van een diabetespatiënt gebruiken bij het maken van een plasmide met een gen voor insuline.',
+  m:'Een diabetespatiënt heeft een tekort aan werkzame insuline. Het insulinegen in zijn DNA is dus niet in orde (er wordt geen werkzame insuline gemaakt). Bacteriën zouden dan ook geen werkzame insuline maken; daarom gebruikt men een gezond menselijk insulinegen.',
+  e:'Check dit antwoord ook met het nakijkmodel uit je boek; het kernidee is dat het gen van de patiënt geen werkzame insuline oplevert.'},
+ {type:'mc', q:'Welke eigenschap van DNA maakt het mogelijk dat wetenschappers genen in een plasmide kunnen zetten?',
+  o:['Het DNA van mensen en bacteriën bestaat bij beide uit stikstofbasen','Het DNA van zowel mensen als bacteriën ligt los in het celplasma','Mensen en bacteriën maken met behulp van hun DNA dezelfde eiwitten','Mensen en bacteriën hebben DNA met dezelfde genetische informatie'],
+  e:'DNA is bij alle organismen op dezelfde manier opgebouwd uit dezelfde vier stikstofbasen, daarom kan een bacterie een menselijk gen aflezen. Menselijk DNA ligt in de kern (niet los in het celplasma), mensen en bacteriën maken niet dezelfde eiwitten en hebben niet dezelfde informatie.'},
+ {type:'mc', q:'Wat zijn stamcellen?',
+  o:['Niet-gespecialiseerde cellen met het vermogen zich te blijven delen','Cellen die zich nooit meer delen','Cellen die alleen in planten voorkomen','Cellen zonder DNA'],
+  e:'Stamcellen zijn nog niet gespecialiseerd en kunnen zich blijven delen. Ze zitten bijvoorbeeld in rood beenmerg, de huid en de darmen.'},
+ {type:'mc', q:'Waarom kan uit een bevruchte eicel een bloedstamcel ontstaan, maar uit een bloedstamcel geen botstamcel?',
+  o:['De eerste cellen van een embryo kunnen alle celtypen vormen, een bloedstamcel maakt alleen bloedcellen','Een bloedstamcel bevat geen DNA','Een bevruchte eicel is een gewone gespecialiseerde cel','Een botstamcel kan alleen uit een zenuwcel ontstaan'],
+  e:'De meeste stamcellen maken maar één type cel. Alleen de eerste cellen van het menselijk embryo kunnen alle andere celtypen vormen.'},
+ {type:'open', q:'Licht de naam stamcel toe.',
+  m:'Uit een stamcel ‘stammen’ andere cellen voort: stamcellen kunnen zich blijven delen en de dochtercellen kunnen zich specialiseren tot een bepaald celtype (zoals bloedcellen of zenuwcellen).',
+  e:'Een stamcel is de ‘stam’ waaruit vele gespecialiseerde cellen ontstaan.'},
+ {type:'open', q:'Noteer twee argumenten tegen het gebruik van stamcellen uit embryo’s.',
+  m:'1) Ethisch bezwaar: een embryo (mogelijk een beginnend mens) wordt vernietigd. 2) Het is niet zeker welke risico’s het heeft; de cellen zijn lichaamsvreemd (kans op afstoting) of de techniek is nog niet veilig bewezen. (Ook geldt: er is discussie over hoeveel waarde een embryo heeft.)',
+  e:'Noem concrete argumenten, bijvoorbeeld ethisch (embryo wordt gebruikt/vernietigd) en praktisch (risico’s, afstoting).'},
+ {type:'tf', q:'Bij weefselkweek met stamcellen van de patiënt zelf is er geen risico op afstoting.', c:true,
+  e:'Klopt. De ingebrachte cellen zijn lichaamseigen, dus de witte bloedcellen van de patiënt reageren er niet op.'},
+ {type:'mc', q:'Wat kan een reden zijn om de navelstreng van een patiënt te bewaren?',
+  o:['De stamcellen uit de navelstreng zijn lichaamseigen en kunnen later zonder risico op afstoting worden gebruikt','De navelstreng bevat gespecialiseerde hartcellen','Een navelstreng groeit mee tot een nieuw orgaan','Stamcellen uit de navelstreng zijn goedkoper dan insuline'],
+  e:'Stamcellen uit de navelstreng zijn van de persoon zelf. Ingevroren bewaard kunnen ze later gebruikt worden, zonder risico op afstoting.'},
+ {type:'open', q:'Afstoting is het grootste gevaar bij een orgaantransplantatie. Leg uit hoe dit komt.',
+  m:'Een donororgaan bestaat uit lichaamsvreemde cellen. De witte bloedcellen van de patiënt reageren sterk op lichaamsvreemde cellen en breken het donororgaan af.',
+  e:'Sleutelwoorden: lichaamsvreemd en witte bloedcellen.'},
+ {type:'open', q:'Wat kan een arts doen om de kans op afstoting te verkleinen?',
+  m:'Medicijnen geven die afstoting voorkomen (die de afweer onderdrukken), en/of zoveel mogelijk gebruikmaken van cellen/weefsel van de patiënt zelf.',
+  e:'Let op: de medicijnen verzwakken het afweersysteem, waardoor de patiënt extra kwetsbaar is voor infecties.'},
+ {type:'mc', q:'Wat is een organoïde?',
+  o:['Een mini-orgaantje: een driedimensionale celkweek uit stamcellen met eigenschappen van het orgaan waaruit de stamcellen komen','Een volledig werkend orgaan dat direct getransplanteerd kan worden','Een organel in plantencellen','Een soort bacterie die insuline maakt'],
+  e:'Organoïden zijn een mooi model om de werking van medicijnen te bestuderen. Uitgroeien tot een volledig orgaan is wellicht iets voor de toekomst.'},
+ {type:'mc', q:'Wat is stamceltransplantatie?',
+  o:['Het gebruikmaken van stamcellen om beschadigde of zieke cellen in het lichaam te vervangen, bijvoorbeeld bij bloedziekten','Het overzetten van een heel orgaan van donor naar patiënt','Het kweken van bacteriën op een agarplaat','Het kopiëren van DNA in een reageerbuis'],
+  e:'Bot en bloed zijn te maken uit stamcellen. Stamceltransplantatie wordt bijvoorbeeld gebruikt bij de behandeling van bloedziekten.'},
+ {type:'mc', q:'Waarom is een orgaan zoals een nier of alvleesklier moeilijk te kweken?',
+  o:['Ze bestaan uit verschillende, samenwerkende weefsels','Omdat ze geen DNA hebben','Omdat ze maar uit één celtype bestaan','Omdat stamcellen alleen bloed kunnen maken'],
+  e:'Een orgaan is meer dan één weefsel: verschillende weefsels moeten samenwerken. Dat is veel lastiger te kweken dan een stukje weefsel.'}
+];
+
+STATIC.t7 = [
+ {type:'mc', q:'Wat betekent het woord eukaryoot?',
+  o:['Een organisme met een echte celkern','Een organisme zonder celkern','Een organisme met een celwand','Een organisme dat van organische stoffen leeft'],
+  e:'Karyon = kern, eu = goed/echt. Eukaryoot = ‘echte kern’. Bij prokaryoten (pro = voordat) ligt het DNA los in het cytoplasma. Dieren, planten en schimmels zijn eukaryoot.'},
+ {type:'mc', q:'Waaraan kun je (met een elektronenmicroscoop) zien dat een 0,7 mm grote cel een bacterie is en geen eencellig diertje of schimmel?',
+  o:['De cel heeft geen celkern','De cel heeft een celwand','De cel heeft geen ER'],
+  e:'Alle bacteriën zijn prokaryoten: geen celkern, het DNA ligt los in het cytoplasma. Een celwand hebben ook schimmels en planten, en een bacterie mist inderdaad ook ER, maar het meest kenmerkende verschil met een eencellig diertje of schimmel is dat er geen kern is.'},
+ {type:'open', q:'Bacteriën hebben altijd ribosomen. Licht toe dat deze in een bacteriecel niet kunnen ontbreken.',
+  m:'Ribosomen maken eiwitten. Elke cel heeft eiwitten nodig om te kunnen leven; zonder ribosomen kan een bacterie geen eiwitten maken en dus niet functioneren.',
+  e:'Koppel: ribosomen → eiwitten maken → eiwitten nodig voor alle celprocessen.'},
+ {type:'open', q:'Noteer twee verschillen tussen een schimmelcel en een bacteriecel.',
+  m:'1) Schimmelcellen zijn eukaryoot (hebben een celkern, DNA in een kern) en bacteriën zijn prokaryoot. 2) Schimmelcellen bevatten organellen zoals ER, golgisysteem en mitochondriën; een bacterie heeft alleen ribosomen. (Ook: schimmelcellen zijn 10–100 keer groter; de celwand is van chitine bij schimmels en van suikers en aminozuren bij bacteriën.)',
+  e:'Noem er twee uit: kern, organellen, grootte, samenstelling celwand.'},
+ {type:'open', q:'Noteer twee overeenkomsten tussen een schimmelcel en een bacteriecel.',
+  m:'1) Beide hebben een celwand. 2) Beide zijn heterotroof (leven van organische stoffen). (Ook: celmembraan, ribosomen, cytoplasma en DNA.)',
+  e:'Overeenkomsten: celwand, celmembraan, ribosomen, heterotroof, DNA, cytoplasma.'},
+ {type:'mc', q:'Uit welke stof bestaat de celwand van een schimmel?',
+  o:['Chitine','Cellulose','Suikers en aminozuren','Fosfolipiden'],
+  e:'Schimmel: chitine (dezelfde stof als in het skelet van insecten). Plant: cellulose, opgebouwd uit glucose. Bacterie: een stevige laag uit suikers en aminozuren.'},
+ {type:'mc', q:'Waarom wordt een bacterie gedood door een antibioticum?',
+  o:['Het tast de bacteriecelwand aan, waardoor de bacterie zijn bescherming kwijtraakt','Het breekt het DNA in de kern af','Het stopt de fotosynthese','Het verdubbelt het DNA zodat de cel barst'],
+  e:'De bacteriecelwand is een prima bescherming, maar niet bestand tegen antibiotica. Deze stoffen tasten de wand aan, zodat de bacterie zijn bescherming kwijtraakt. Een bacterie heeft geen kern en doet geen fotosynthese.'},
+ {type:'open', q:'Een arts kiest niet altijd voor het antibioticum dat het best de bacterie doodt. Bedenk twee redenen om een ander antibioticum voor te schrijven.',
+  m:'Bijvoorbeeld: 1) het middel geeft ernstige bijwerkingen of de patiënt is allergisch ervoor; 2) het is te duur of heeft nadelen voor goede (nuttige) bacteriën in de darm; of bacteriën zijn resistent geworden. Het hoeven er maar twee te zijn.',
+  e:'Zinnige redenen: bijwerkingen, allergie, resistentie, kosten, nadelen voor nuttige bacteriën in de darm.'},
+ {type:'mc', q:'Parasolmieren: bacteriën op de huid van de mieren scheiden een gifstof af die schadelijk is voor de schimmel Escovopsis aspergilloides. Waarom is het juist om de gifstof een antibioticum te noemen?',
+  o:['Dat is NIET juist: een antibioticum doodt bacteriën, en Escovopsis is een schimmel','Dat is juist: alle gifstoffen zijn antibiotica','Dat is juist: een antibioticum doodt alle cellen met een celwand','Dat is juist: schimmels zijn een soort bacterie'],
+  e:'Een antibioticum is een stof die bacteriën doodt. De gifstof werkt tegen een schimmel, een eukaryoot en geen bacterie. Daarom is de naam antibioticum eigenlijk niet juist (dit is een antischimmelmiddel).'},
+ {type:'mc', q:'Welk organel is in een bacteriecel aanwezig?',
+  o:['Alleen ribosomen','Mitochondriën','Een golgisysteem','Endoplasmatisch reticulum'],
+  e:'Van de organellen zijn bij bacteriën alleen ribosomen aanwezig. Bacteriën hebben daarnaast een cirkelvormig chromosoom, plasmiden, een celwand en een celmembraan.'},
+ {type:'tf', q:'Gisten zijn eencellige schimmels die bij de afbraak van organische stoffen CO₂ en alcohol produceren.', c:true,
+  e:'Klopt. Het CO₂ laat brooddeeg rijzen; de alcohol is een belangrijk bestanddeel van wijn en bier.'},
+ {type:'mc', q:'Wat is het verschil tussen autotroof en heterotroof?',
+  o:['Autotroof: zelf organische stoffen maken uit anorganische stoffen. Heterotroof: leven van organische stoffen uit de omgeving','Autotroof: leven van andere organismen. Heterotroof: fotosynthese','Autotroof: alleen dieren. Heterotroof: alleen planten','Er is geen verschil'],
+  e:'Planten zijn autotroof (fotosynthese). Dieren, schimmels en de meeste bacteriën zijn heterotroof.'},
+ {type:'mc', q:'Waaruit blijkt dat een bacterie heel snel kan delen?',
+  o:['Een hele celcyclus duurt bij gunstige omstandigheden soms maar twintig minuten','Een bacterie heeft meer chromosomen dan een mens','Een bacterie deelt alleen in de G₀-fase','Een bacterie heeft geen DNA'],
+  e:'Een menselijke cel doet gemiddeld een hele dag over een celcyclus; een bacterie soms maar 20 minuten.'},
+ {type:'mc', q:'Welke taak heeft de vacuole in een plantencel?',
+  o:['Hij bevat opgeloste stoffen (vaak kleurstoffen) en geeft stevigheid via turgor','Hij voert fotosynthese uit','Hij slaat zetmeel op','Hij maakt eiwitten'],
+  e:'De vacuole is een met vocht gevulde blaas. Samen met de celwand zorgt hij voor stevigheid (turgor). Fotosynthese = chloroplast; zetmeelopslag = amyloplast; eiwitten maken = ribosomen.'},
+ {type:'mc', q:'Welke plastide hoort bij welke functie?',
+  o:['Chloroplast: fotosynthese · Chromoplast: oranjerode kleur · Amyloplast: zetmeel opslaan',
+     'Chloroplast: zetmeel opslaan · Chromoplast: fotosynthese · Amyloplast: oranjerode kleur',
+     'Chloroplast: oranjerode kleur · Chromoplast: zetmeel opslaan · Amyloplast: fotosynthese',
+     'Chloroplast: eiwitten maken · Chromoplast: water opslaan · Amyloplast: DNA bewaren'],
+  e:'Groene plastiden = bladgroenkorrels (chloroplasten): fotosynthese. Oranjerode plastiden = chromoplasten (rijp fruit, wortels). Kleurloze plastiden = amyloplasten: opslag van zetmeel (bijv. in aardappelknollen).'},
+ {type:'tf', q:'Bij planten ligt de celwand binnen het celmembraan.', c:false,
+  e:'Niet waar. De celwand ligt om de plantaardige cel heen, buiten het celmembraan.'},
+ {type:'mc', q:'Hoe ontstaat de stevigheid van een plantencel?',
+  o:['Hoe meer water in de vacuole, hoe groter de druk (turgor) op de celwand en hoe steviger de cel','Hoe minder water in de vacuole, hoe steviger de cel','Alleen door het celmembraan','Door het cytoskelet, de celwand is niet belangrijk'],
+  e:'De grote vacuole vult zich met water en duwt tegen de celwand; die geeft stevigheid en vorm. Verlies je water, dan hangt de plant slap.'},
+ {type:'mc', q:'Wat gebeurt er tijdens de fotosynthese?',
+  o:['Uit water en koolstofdioxide worden met lichtenergie glucose en zuurstof gemaakt','Uit glucose en zuurstof worden water en CO₂ gemaakt','Uit glucose worden aminozuren gemaakt','Uit lichtenergie wordt DNA gemaakt'],
+  e:'Fotosynthese vindt plaats in de bladgroenkorrels: water (H₂O) + koolstofdioxide (CO₂) + lichtenergie → glucose (C₆H₁₂O₆) + zuurstof (O₂). Planten zijn daardoor autotroof.'},
+ {type:'mc', q:'Welke twee dingen heeft een plantencel wel en een dierlijke cel niet?',
+  o:['Plastiden (zoals chloroplasten) en een celwand (met een grote vacuole)','Mitochondriën en een celkern','Ribosomen en een celmembraan','Lysosomen en een golgisysteem'],
+  e:'Verschillen plant–dier: celwand, grote vacuole en plastiden. Overeenkomsten: celmembraan, kern, cytoplasma, mitochondriën, ER, golgisysteem, ribosomen.'},
+ {type:'open', q:'Een aardappel die boven de grond ligt, wordt groen. Licht toe waardoor.',
+  m:'Door het licht ontwikkelen zich in de cellen bladgroenkorrels (chloroplasten). Die bevatten de groene kleurstof (chlorofyl) en zorgen voor de groene kleur.',
+  e:'Normaal zitten er in de knol amyloplasten (zetmeel), kleurloos. Met licht kunnen er bladgroenkorrels bij komen.'}
+];
+
+/* ---------- TOEPASSINGSVRAGEN (casussen, redeneren, uitleggen) ---------- */
+STATIC.t1.push(
+ {type:'mc', q:'Een mier kan in zijn eentje geen groot nest bouwen, maar een kolonie wel. Wat is de beste biologische verklaring?',
+  o:['Door samenwerking van veel individuen ontstaat een eigenschap (nestbouw) die één mier niet heeft: een emergente eigenschap',
+     'Elke mier heeft die eigenschap zelf al, maar in een kleinere hoeveelheid',
+     'Een kolonie heeft meer chromosomen dan één mier',
+     'Het nest ontstaat doordat mieren eencellig zijn'],
+  e:'Een emergente eigenschap ontstaat op een hoger niveau door samenwerking van de onderdelen en is niet af te leiden uit één onderdeel. Eén mier bouwt geen nest; de kolonie als geheel kan dat wel.'},
+ {type:'mc', q:'Welk voorbeeld laat zien dat een eigenschap NIET emergent is?',
+  o:['Het gewicht van een mens is gewoon de som van het gewicht van al zijn cellen',
+     'Een zwerm vogels verandert als geheel van richting terwijl geen enkele vogel de leiding heeft',
+     'Denken ontstaat door de samenwerking van miljarden zenuwcellen',
+     'Een hart pompt bloed doordat verschillende weefsels samenwerken'],
+  e:'Gewicht kun je gewoon optellen uit de onderdelen: er ontstaat niets nieuws. In de andere voorbeelden ontstaat door samenwerking iets wat de losse onderdelen niet kunnen.'}
+);
+
+STATIC.t2.push(
+ {type:'mc', q:'Een spiercel gebruikt veel meer energie dan een huidcel. Welk verschil verwacht je tussen deze cellen?',
+  o:['De spiercel heeft meer mitochondriën','De spiercel heeft een celwand','De spiercel heeft geen celkern','De spiercel heeft meer lysosomen en geen golgisysteem'],
+  e:'Mitochondriën breken glucose af en slaan de energie op in ATP. Een cel met een hoge energiebehoefte heeft er dus veel van. Een dierlijke cel heeft nooit een celwand en spiercellen hebben wel een kern.'},
+ {type:'mc', q:'Een kliercel maakt veel eiwitten die de cel moet verlaten. Welke celonderdelen verwacht je in deze cel in grote aantallen?',
+  o:['Ruw ER met ribosomen, golgisysteem en transportblaasjes','Chloroplasten en een grote vacuole','Alleen lysosomen','Een celwand en plastiden'],
+  e:'Ribosomen (op het ruw ER) maken de eiwitten, het ER transporteert, het golgisysteem sorteert en verpakt en transportblaasjes brengen de eiwitten naar het celmembraan. Chloroplasten en een celwand horen bij plantencellen.'},
+ {type:'mc', q:'Een stof (bijvoorbeeld een hormoon) komt de cel niet binnen, maar de cel reageert er toch op. Welk celonderdeel zorgt hiervoor?',
+  o:['Receptoreiwitten in het celmembraan','Transporteiwitten in het celmembraan','Het cytoskelet','De lysosomen'],
+  e:'Receptoreiwitten maken aan de buitenkant van de cel contact met specifieke stoffen; die stoffen komen de cel niet in maar zetten wel een reactie in gang. Transporteiwitten laten stoffen juist wél door het membraan.'},
+ {type:'mc', q:'De enzymen in de lysosomen van een cel werken niet meer. Wat is het meest waarschijnlijke gevolg?',
+  o:['Grote deeltjes en oude organellen worden niet meer afgebroken en hopen zich op','De cel kan geen eiwitten meer maken','De cel kan geen ATP meer maken','Het DNA wordt niet meer verdubbeld'],
+  e:'Lysosomen bevatten enzymen die grote deeltjes verteren en oude organellen afbreken. Eiwitten maken doen ribosomen, ATP maken doen mitochondriën.'}
+);
+
+STATIC.t3.push(
+ {type:'mc', q:'Een puntmutatie verandert het codon GAA in GAG, maar het eiwit blijft precies hetzelfde. Hoe kan dat?',
+  o:['Meerdere verschillende codons kunnen voor hetzelfde aminozuur coderen','Het ribosoom negeert het gemuteerde codon','Het RNA wordt na de mutatie hersteld door het ribosoom','Een puntmutatie kan nooit iets veranderen'],
+  e:'Er zijn 64 codons maar 20 aminozuren, dus meestal coderen meerdere codons voor hetzelfde aminozuur (kijk in Binas 71G: GAA en GAG zijn allebei Glu). De mutatie heeft dan geen gevolg voor het eiwit.'},
+ {type:'mc', q:'In het midden van een gen verandert door een puntmutatie het codon UGG (Trp) in UGA. Wat is het gevolg?',
+  o:['Het eiwit wordt veel korter, omdat UGA een stopcodon is','Het eiwit bevat één aminozuur meer','Het eiwit blijft gelijk','Het ribosoom begint opnieuw bij AUG en maakt een tweede eiwit'],
+  e:'UGA is een stopcodon: het aflezen stopt daar. Het eiwit bestaat dan alleen uit de aminozuren vóór dat punt en is vaak niet meer functioneel.'},
+ {type:'open', q:'Het DNA bevat de informatie voor een eiwit, maar toch maakt de cel er eerst RNA van. Leg uit waarom dat handig is.',
+  m:'Het DNA blijft veilig in de celkern, terwijl de ribosomen die eiwitten maken in het cytoplasma zitten. Het RNA is een kopie van een gen dat de kern kan verlaten en de informatie naar een ribosoom brengt. Het DNA zelf blijft zo onbeschadigd bewaard.',
+  e:'Kernpunten: DNA blijft in de kern, RNA is een kopie van één gen, RNA brengt de informatie naar de ribosomen in het cytoplasma.'},
+ {type:'mc', q:'Twee mensen hebben hetzelfde gen, maar bij één van hen verandert in dat gen één basenpaar zo dat een ander aminozuur terechtkomt. Wat kan het gevolg voor het eiwit zijn?',
+  o:['Het eiwit kan anders vouwen en daardoor een andere of geen werking hebben','Het eiwit krijgt automatisch een stopcodon','Het DNA verdubbelt zich extra','Het eiwit wordt door het RNA gerepareerd'],
+  e:'Een ander aminozuur kan de manier van vouwen veranderen, waardoor de werking van het eiwit verandert of verdwijnt. Soms heeft het weinig gevolgen (kleine verandering), soms is het ernstig.'}
+);
+
+STATIC.t4.push(
+ {type:'mc', q:'Een zenuwcel en een spiercel hebben hetzelfde DNA, maar maken verschillende eiwitten. Hoe kan dat?',
+  o:['Door genexpressie: in elke cel staan andere genen aan of uit','Omdat de spiercel meer DNA heeft','Omdat zenuwcellen geen RNA maken','Omdat beide cellen verschillende chromosomen hebben'],
+  e:'Alle lichaamscellen hebben hetzelfde DNA. Bij celdifferentiatie bepaalt genexpressie welke genen actief zijn, en daarmee welke eiwitten een cel maakt en welke vorm en functie hij krijgt.'},
+ {type:'open', q:'Bij het kopiëren van het DNA in de S-fase ontstaat een fout. Beschrijf wat de cel in de G₂-fase doet en wat er kan gebeuren.',
+  m:'In de G₂-fase controleert de cel het verdubbelde DNA op fouten. Is de fout herstelbaar, dan herstelt de cel hem. Is hij onherstelbaar, dan gaat de cel dood (geprogrammeerde celdood), zodat er geen cel met foute DNA-informatie blijft delen.',
+  e:'Noem: controle in G₂, herstel, en bij een onherstelbare fout celdood. Als alles goed is, volgt de M-fase.'},
+ {type:'mc', q:'Waarom delen volwassen zenuwcellen veel minder vaak dan huidcellen?',
+  o:['Zenuwcellen zijn gespecialiseerd en zitten vaak in de rustfase (G₀), terwijl de huid snel slijt en voortdurend vervangen moet worden','Zenuwcellen hebben geen DNA','Huidcellen hebben meer chromosomen','Zenuwcellen maken geen eiwitten'],
+  e:'Je huid en je darmslijmvlies slijten snel en worden door celdeling aangevuld. Cellen die zich hebben gespecialiseerd (zoals zenuwcellen) komen vaak in de G₀-fase en gaan niet meer delen.'},
+ {type:'mc', q:'Een geneesmiddel blokkeert de DNA-verdubbeling. In welke fase blijven cellen dan vastzitten?',
+  o:['In de S-fase','In de G₁-fase','In de telofase','In de G₀-fase'],
+  e:'In de S-fase verdubbelt het DNA (replicatie). Als dat geblokkeerd is, komt de cel niet bij de G₂-fase en de mitose. Dit principe gebruikt men bij sommige kankerbehandelingen: de snel delende cellen lopen vast.'}
+);
+
+STATIC.t5.push(
+ {type:'mc', q:'Een stof voorkomt dat een delende cel een spoelfiguur met trekdraden maakt. Wat gebeurt er met de chromatiden?',
+  o:['Ze kunnen niet uit elkaar getrokken worden, dus de cel kan zijn DNA niet verdelen over twee dochterkernen','Ze worden toch netjes verdeeld','Ze verdwijnen','Ze blijven in de G₁-fase'],
+  e:'De trekdraden trekken in de anafase aan het centromeer, waardoor de chromatiden uit elkaar gaan. Zonder trekdraden kan het DNA niet verdeeld worden. Dit gebruiken kwekers om cellen met het dubbele aantal chromosomen te maken.'},
+ {type:'open', q:'Een patiënt met kanker krijgt chemotherapie. Leg uit waarom dit de kankercellen aantast en waarom er tóch bijwerkingen optreden.',
+  m:'De stoffen bij chemotherapie beïnvloeden de mitose van de kankercellen, zodat deze zich niet meer kunnen delen. Maar ook gezonde cellen die gecontroleerd en snel delen worden aangetast, zoals haarzakcellen (haaruitval), cellen in het beenmerg (bloedarmoede) en cellen in de darm (slechte opname van voedingsstoffen).',
+  e:'Twee delen: (1) werking op de mitose van kankercellen; (2) ook gezonde snel delende cellen raken beschadigd, dat veroorzaakt de bijwerkingen.'},
+ {type:'mc', q:'Bij patiënt A is een gezwel ontdekt dat langzaam groeit en omgeven is door bindweefsel. Bij patiënt B dringt een gezwel de omringende weefsels binnen en zijn er ook tumorcellen in de longen gevonden. Wat is de juiste conclusie?',
+  o:['A heeft een goedaardige tumor; B heeft kanker met uitzaaiingen','A heeft kanker; B heeft een goedaardige tumor','Beide tumoren zijn goedaardig','Bij B zijn de longcellen gemuteerd door roken, er is geen sprake van uitzaaiing'],
+  e:'Langzame groei en ingesloten door bindweefsel = goedaardig. Binnendringen in weefsels en cellen die in andere organen terechtkomen (via bloed of lymfe) = kwaadaardig, kanker met uitzaaiingen.'},
+ {type:'open', q:'Iemand gaat vaak naar de zonnebank. Leg uit hoe dit kan leiden tot een tumor.',
+  m:'UV-straling is mutagene straling en veroorzaakt mutaties in het DNA van huidcellen. Treedt zo’n mutatie op in een regelgen (een gen dat de celdeling remt of stimuleert), dan wordt de celdeling niet meer goed geregeld. Cellen gaan ongecontroleerd delen en er ontstaat een tumor.',
+  e:'Keten: mutagene straling → mutatie in regelgen → ongecontroleerde celdeling → tumor.'}
+);
+
+STATIC.t6.push(
+ {type:'mc', q:'Het menselijk insulinegen is in een plasmide gezet en in bacteriën gebracht. Wat gebeurt er in zo’n bacterie?',
+  o:['De bacterie neemt het DNA op, leest het gen af en maakt menselijke insuline','De bacterie wordt een menselijke cel','De bacterie verliest zijn celwand en deelt niet meer','De bacterie maakt alleen RNA en nooit eiwit'],
+  e:'Bacteriën nemen het recombinant-DNA op en maken, met behulp van hun ribosomen, het eiwit insuline. Die insuline kunnen diabetespatiënten gebruiken.'},
+ {type:'open', q:'Noem een verschil tussen de twee manieren om diabetespatiënten te helpen: insuline gemaakt door genetisch gemodificeerde bacteriën of weefsel uit eigen gemodificeerde stamcellen.',
+  m:'Bij gemodificeerde bacteriën wordt de insuline buiten de patiënt gemaakt en daarna gespoten. Bij stamcellen worden lichaamseigen cellen (waarin het insulinegen is ingebracht) in de patiënt gebracht en die geven daar zelf insuline af; omdat ze lichaamseigen zijn, is er geen risico op afstoting.',
+  e:'Verschil: waar de insuline gemaakt wordt (buiten het lichaam in bacteriën versus in het lichaam in eigen cellen) en het risico op afstoting.'},
+ {type:'mc', q:'Een patiënt heeft een nieuwe alvleesklier nodig. Welke aanpak geeft de kleinste kans op afstoting?',
+  o:['Weefsel kweken uit stamcellen van de patiënt zelf','Een donororgaan van een onbekende donor met afweeronderdrukkende medicijnen','Een donororgaan van een onbekende donor zonder medicijnen','Weefsel kweken uit stamcellen van een willekeurige donor'],
+  e:'Afstoting ontstaat doordat witte bloedcellen lichaamsvreemde cellen afbreken. Cellen van de patiënt zelf zijn lichaamseigen, dus de afweer reageert er niet op. Artsen gebruiken daarom het liefst cellen van de patiënt zelf.'},
+ {type:'open', q:'Waarom zijn organoïden handig voor onderzoek naar medicijnen?',
+  m:'Een organoïde is een mini-orgaantje dat eigenschappen heeft van het orgaan waaruit de stamcellen zijn genomen. Onderzoekers kunnen er de werking van medicijnen op bestuderen, zonder dat een patiënt of een heel orgaan nodig is.',
+  e:'Het gaat om: model van het orgaan, medicijnen uitproberen zonder een heel orgaan of patiënt nodig te hebben.'},
+ {type:'mc', q:'Waarom worden stamcellen uit het rode beenmerg gebruikt om bloedcellen te maken?',
+  o:['Stamcellen in het rode beenmerg maken bloedcellen','Het beenmerg bevat alleen bevruchte eicellen','Alle stamcellen maken elk type cel','Bloedcellen kunnen alleen in de huid gemaakt worden'],
+  e:'In het rode beenmerg zitten stamcellen die bloedcellen maken. De meeste stamcellen maken maar één type cel (hier bloedcellen). Alleen de eerste cellen van een embryo kunnen alle celtypen vormen.'}
+);
+
+STATIC.t7.push(
+ {type:'open', q:'Waarom kan een antibioticum bacteriën doden zonder menselijke cellen te beschadigen? Gebruik de bouw van de cel in je antwoord.',
+  m:'Antibiotica tasten de celwand van bacteriën aan, waardoor de bacterie zijn bescherming kwijtraakt. Menselijke (dierlijke) cellen hebben helemaal geen celwand, dus daar werkt het middel niet op.',
+  e:'Sleutel: bacteriën hebben een celwand die door het antibioticum wordt aangetast; dierlijke cellen hebben geen celwand. (Controleer dit met het nakijkmodel van je boek.)'},
+ {type:'mc', q:'Cellen in de wortel van een plant krijgen geen licht en hebben geen chloroplasten. Waarom hebben ze toch mitochondriën?',
+  o:['Ze breken glucose af en gebruiken de energie voor hun levensprocessen','Ze gebruiken mitochondriën voor fotosynthese','Ze slaan er zetmeel in op','Ze hebben mitochondriën nodig voor hun celwand'],
+  e:'Alle levende cellen hebben energie nodig. Mitochondriën gebruiken glucose als energiebron en maken ATP. Fotosynthese gebeurt alleen in chloroplasten, en zetmeel wordt in amyloplasten opgeslagen.'},
+ {type:'mc', q:'Een plant staat te lang zonder water en gaat slap hangen. Wat is de verklaring op celniveau?',
+  o:['Er zit minder water in de vacuolen, waardoor de druk (turgor) op de celwand afneemt','De celwand wordt dunner doordat de cel groeit','De chloroplasten raken de celwand kwijt','De cellen delen te snel'],
+  e:'Een vacuole vol water zet druk op de celwand en maakt de cel stevig. Neemt het water af, dan neemt de druk af en wordt de cel (en dus de plant) slap.'},
+ {type:'mc', q:'Een bacterie wordt bestreden met een antibioticum dat de celwand aantast. Waarom helpt hetzelfde middel niet bij een besmetting met een schimmel?',
+  o:['De celwand van een schimmel is anders opgebouwd (chitine) en schimmels zijn eukaryoot','Schimmels hebben geen celwand','Schimmels hebben geen DNA','Schimmels zijn kleiner dan bacteriën'],
+  e:'Antibiotica zijn gemaakt tegen bacteriën: de bacteriecelwand bestaat uit suikers en aminozuren. De celwand van een schimmel bestaat uit chitine, en de schimmel is een eukaryoot met een kern en veel organellen.'}
+);
+
+/* ---------- GENERATOREN: elke poging nieuwe getallen/volgordes ---------- */
+const GENS = {};
+
+/* ---- t1: organisatieniveaus ---- */
+const LEVELS = ['molecuul','organel','cel','weefsel','orgaan','orgaanstelsel','organisme','populatie','ecosysteem','systeem Aarde'];
+function genLevelNext(){
+  const i = ri(0, LEVELS.length-2), after = Math.random()<.5;
+  const ref = after ? i : i+1;
+  const ans = after ? LEVELS[i+1] : LEVELS[i];
+  const dir = after ? 'direct boven' : 'direct onder';
+  const wrong = shuffle(LEVELS.filter(l=>l!==ans && l!==LEVELS[ref])).slice(0,3);
+  return {type:'mc', q:'Welk organisatieniveau ligt '+dir+' het niveau ‘'+LEVELS[ref]+'’? (van klein naar groot: molecuul – organel – cel – weefsel – orgaan – orgaanstelsel – organisme – populatie – ecosysteem – systeem Aarde)',
+    o:[ans].concat(wrong),
+    e:'De volgorde van klein naar groot is: '+LEVELS.join(' → ')+'. Onder ‘'+LEVELS[ref]+'’ zit ‘'+(LEVELS[ref-1]||'—')+'’, erboven ‘'+(LEVELS[ref+1]||'—')+'’. Het antwoord is dus ‘'+ans+'’.'};
+}
+const LEVEL_EX = [
+  ['een hartspiercel','cel','Een enkele cel is het laagste niveau met alle levenskenmerken.'],
+  ['de maag','orgaan','De maag bestaat uit verschillende weefsels die samenwerken aan een taak: een orgaan.'],
+  ['een kudde olifanten van dezelfde soort in de savanne','populatie','Soortgenoten in hetzelfde gebied: een populatie.'],
+  ['het spijsverteringsstelsel (maag, darmen, lever…)','orgaanstelsel','Alle organen die aan dezelfde taak werken: een orgaanstelsel.'],
+  ['een mitochondrium','organel','Een onderdeel van een cel met een bepaalde functie: een organel.'],
+  ['een savanne met alle planten, dieren en de bodem en het water','ecosysteem','Organismen mét de levenloze natuur in een begrensd gebied: een ecosysteem.'],
+  ['spierweefsel in je bovenarm','weefsel','Een groep cellen met dezelfde bouw en functie: weefsel.'],
+  ['een watermolecuul','molecuul','Twee of meer atomen die aan elkaar zitten: een molecuul.'],
+  ['één eekhoorn','organisme','Eén levend wezen: een organisme.'],
+  ['alle ecosystemen van de planeet samen','systeem Aarde','Alle ecosystemen samen vormen systeem Aarde.']
+];
+function genLevelEx(){
+  const it = pick(LEVEL_EX);
+  const wrong = shuffle(LEVELS.filter(l=>l!==it[1])).slice(0,3);
+  return {type:'mc', q:'Bij welk organisatieniveau hoort: ‘'+it[0]+'’?', o:[it[1]].concat(wrong), e:it[2]};
+}
+GENS.t1 = [[genLevelNext,2],[genLevelEx,2]];
+
+/* ---- t2: organel ↔ functie ---- */
+const ORG = [
+  ['maakt eiwitten','ribosoom','Ribosomen vormen eiwitten (losliggend of op het ruw ER).'],
+  ['bevat het DNA met bouwinstructies voor het maken van eiwitten','kern','De kern is omgeven door een kernmembraan met poriën en bevat het DNA.'],
+  ['is de energiecentrale van de cel (ATP maken)','mitochondrium','Mitochondriën breken glucose af en slaan de energie op in ATP.'],
+  ['verteert grote deeltjes en breekt oude organellen af','lysosoom','Lysosomen zijn blaasjes met enzymen.'],
+  ['sorteert en verpakt eiwitten in transportblaasjes','golgisysteem','Het golgisysteem ontvangt eiwitten uit het ER; stapel platte membraanzakken.'],
+  ['vormt een netwerk van membranen voor het transport van eiwitten','endoplasmatisch reticulum (ER)','Het ER bestaat uit twee membranen die dicht tegen elkaar liggen, vaak met ribosomen.'],
+  ['geeft de cel vorm en vormt transportbanen voor blaasjes','cytoskelet','Een netwerk van eiwitdraden.'],
+  ['vervoert verpakte eiwitten naar verschillende plaatsen in de cel','transportblaasje','Blaasjes bewegen langs de eiwitdraden van het cytoskelet.'],
+  ['begrenst de cel en voorkomt het willekeurig uitwisselen van stoffen','celmembraan','Dubbele laag fosfolipiden met eiwitten en cholesterol.']
+];
+function genOrganel(){
+  const it = pick(ORG);
+  const wrong = shuffle(ORG.filter(x=>x[1]!==it[1]).map(x=>x[1])).slice(0,3);
+  return {type:'mc', q:'Welk celonderdeel ‘'+it[0]+'’?', o:[it[1]].concat(wrong), e:it[2]};
+}
+function genOrganelRev(){
+  const it = pick(ORG);
+  const wrong = shuffle(ORG.filter(x=>x[1]!==it[1]).map(x=>x[0])).slice(0,3);
+  return {type:'mc', q:'Wat is de functie van het ‘'+it[1]+'’?', o:[it[0]].concat(wrong), e:it[2]};
+}
+GENS.t2 = [[genOrganel,3],[genOrganelRev,3]];
+
+/* ---- t3: DNA → RNA → aminozuren ---- */
+function randCoding(k){
+  const cod=['AUG']; for(let i=0;i<k;i++) cod.push(pick(COD_NONSTOP));
+  cod.push(pick(['UAA','UAG','UGA']));
+  return cod;
+}
+function genTranslate(){
+  const k = ri(3,5), cod = randCoding(k);
+  const dna = cod.map(c=>c.split('').map(b=>RNA2DNA[b]).join(''));
+  const aa = cod.filter(c=>CODONS[c]!=='Stop').map(c=>CODONS[c]);
+  return {type:'txt',
+    q:'Hieronder staat de DNA-streng waarlangs een RNA-molecuul wordt gemaakt (gen, in tripletten):\n\n'+dna.join(' ')+'\n\nBepaal eerst de basenvolgorde van het RNA en daarna de aminozuren van het eiwit (Binas 71E en 71G; schrijf aminozuren met hun drie letters, bijv. Met Ala).',
+    steps:[
+      {label:'RNA (basenvolgorde)', kind:'rna', ans:cod.join('')},
+      {label:'Aminozuren (volgorde)', kind:'aa', ans:aa}
+    ],
+    e:'Stap 1: bij elke DNA-base hoort een RNA-base: A→U, T→A, C→G, G→C. Stap 2: lees het RNA in codons van drie en zoek elk codon op in Binas 71G. Uitwerking:\n'+
+      cod.map((c,i)=>dna[i]+' → '+c+' → '+CODONS[c]).join('\n')+
+      '\nHet eiwit begint bij het startcodon AUG (Met) en stopt bij het stopcodon ('+cod[cod.length-1]+'), dat voor geen aminozuur codeert.'};
+}
+function genRnaToDna(){
+  const k = ri(3,4), cod = randCoding(k);
+  const dna = cod.map(c=>c.split('').map(b=>RNA2DNA[b]).join('')).join('');
+  return {type:'txt',
+    q:'Een RNA-molecuul heeft de volgende basenvolgorde:\n\n'+cod.join(' ')+'\n\nWat is de basenvolgorde van de DNA-streng waarlangs dit RNA is gemaakt?',
+    steps:[{label:'DNA-streng', kind:'dna', ans:dna}],
+    e:'Bij elke RNA-base hoort op het DNA: U↔A, A↔T, G↔C, C↔G. Dus:\n'+cod.map(c=>c+' ← '+c.split('').map(b=>RNA2DNA[b]).join('')).join('\n')+'\nDe DNA-streng is: '+triplets(dna)+'.'};
+}
+function genComplement(){
+  const n = ri(8,12);
+  let s=''; for(let i=0;i<n;i++) s+=pick(['A','C','G','T']);
+  const comp = s.split('').map(b=>DNA2DNA[b]).join('');
+  return {type:'txt',
+    q:'Een stukje van één DNA-streng heeft de basenvolgorde:\n\n'+s+'\n\nWat is de basenvolgorde van de andere streng (de streng die er in het DNA-molecuul tegenover zit)?',
+    steps:[{label:'Tegenoverliggende streng', kind:'dna', ans:comp}],
+    e:'In DNA zit tegenover A altijd T en tegenover C altijd G (en omgekeerd).\n'+s+'\n'+comp};
+}
+function genMutation(){
+  const k = ri(3,4);
+  const cod = ['AUG']; for(let i=0;i<k;i++) cod.push(pick(COD_NONSTOP));
+  cod.push(pick(['UAA','UAG','UGA']));
+  const idx = ri(1,k);           // niet het start- of stopcodon
+  const old = cod[idx];
+  const choices=[];
+  for(let p=0;p<3;p++) for(const b of 'ACGU'){ if(b!==old[p]){ const nw = old.slice(0,p)+b+old.slice(p+1); choices.push([nw,p]); } }
+  const [nw,pos] = pick(choices);
+  const aOld = CODONS[old], aNew = CODONS[nw];
+  let cat, why;
+  if(aNew==='Stop'){ cat='Het eiwit wordt korter (er komt een stopcodon)'; why='het nieuwe codon is een stopcodon, dus het aflezen stopt eerder: een korter eiwit.'; }
+  else if(aNew===aOld){ cat='Geen verandering in het eiwit (hetzelfde aminozuur)'; why='beide codons coderen voor hetzelfde aminozuur ('+aOld+'): de mutatie heeft geen gevolg voor het eiwit.'; }
+  else { cat='Eén aminozuur in het eiwit is veranderd'; why='het codon codeert nu voor '+aNew+' in plaats van '+aOld+': er komt één ander aminozuur in het eiwit.'; }
+  const mutated = cod.slice(); mutated[idx]=nw;
+  const all = ['Het eiwit wordt korter (er komt een stopcodon)','Geen verandering in het eiwit (hetzelfde aminozuur)','Eén aminozuur in het eiwit is veranderd','Het eiwit wordt langer (stopcodon verdwijnt)'];
+  const wrong = all.filter(x=>x!==cat).slice(0,3);
+  return {type:'mc',
+    q:'Een gen wordt overgeschreven naar het volgende RNA:\n\n'+cod.join(' ')+'\n\nDoor een puntmutatie in het DNA verandert codon '+(idx+1)+' ('+old+') in '+nw+'. Wat is het gevolg voor het eiwit? (Gebruik Binas 71G.)',
+    o:[cat].concat(wrong),
+    e:'Vergelijk de codons: '+old+' → '+aOld+' en '+nw+' → '+aNew+'. Het gevolg is: '+why+'\nHet RNA wordt dan: '+mutated.join(' ')+'.'};
+}
+GENS.t3 = [[genTranslate,2],[genRnaToDna,1],[genComplement,1],[genMutation,2]];
+
+/* ---- t4: DNA-hoeveelheid en aantallen ---- */
+function genDnaAmount(){
+  const ph = pick([
+    ['de G₁-fase','x','De cel is nog niet verdubbeld: de oorspronkelijke hoeveelheid x.'],
+    ['het einde van de S-fase','2x','In de S-fase verdubbelt het DNA: 2x.'],
+    ['de G₂-fase','2x','Het DNA is al verdubbeld in de S-fase en nog niet verdeeld: 2x.'],
+    ['de metafase','2x','De chromosomen (elk met twee chromatiden) liggen in het midden. Het DNA is nog niet verdeeld: 2x.'],
+    ['de anafase','2x','De chromatiden worden uit elkaar getrokken, maar de cel is nog één cel met alle DNA: nog steeds 2x.'],
+    ['de telofase (vóór de celdeling)','2x','Er zijn twee kernen, maar nog één cel die nog niet gesplitst is: 2x.'],
+    ['een dochtercel direct na de celdeling','x','Elke dochtercel krijgt één van de twee identieke DNA-hoeveelheden: weer x.']
+  ]);
+  return {type:'mc',
+    q:'De hoeveelheid DNA in een cel in de G₁-fase is x. Hoeveel DNA bevat een cel in '+ph[0]+'?',
+    o:[ph[1]].concat(['x','2x','4x','x/2'].filter(a=>a!==ph[1]).slice(0,3)),
+    e:ph[2]+' (Binas 76B1: in de S-fase verdubbelt het DNA, na de mitose en celdeling is het weer gehalveerd per cel.)'};
+}
+function genChrCount(){
+  const N = pick([4,6,8,10,14,20,24,46]);
+  const t = pick([
+    ['Hoeveel DNA-moleculen bevat de cel na de S-fase?',2*N,'Elk van de '+N+' DNA-moleculen is verdubbeld: 2 × '+N+' = '+(2*N)+'.'],
+    ['Hoeveel chromatiden telt de cel in de metafase?',2*N,'Elk chromosoom bestaat uit twee chromatiden: 2 × '+N+' = '+(2*N)+'.'],
+    ['Hoeveel chromosomen liggen er in de metafase in het midden van de cel?',N,'Het aantal chromosomen blijft '+N+'; ze bestaan elk uit twee chromatiden.'],
+    ['Hoeveel chromosomen heeft elke dochtercel na de mitose en celdeling?',N,'Elke dochtercel krijgt precies één chromatide van elk chromosoom: weer '+N+' chromosomen.'],
+    ['Hoeveel chromosomen telt de cel (in totaal) in de late anafase, als alle chromatiden uit elkaar zijn?',2*N,'Elke chromatide is nu een compleet chromosoom: 2 × '+N+' = '+(2*N)+' chromosomen in de cel (verdeeld over twee polen).']
+  ]);
+  return {type:'num',
+    q:'Een cel heeft in de G₁-fase '+N+' chromosomen (dus '+N+' DNA-moleculen). '+t[0],
+    ans:t[1], e:t[2]};
+}
+const PHASES = [
+  ['G₁-fase','de cel groeit en maakt eiwitten ter voorbereiding van de S-fase'],
+  ['S-fase','elk DNA-molecuul verdubbelt'],
+  ['G₂-fase','de cel groeit, maakt organellen en eiwitten en controleert of het DNA goed gekopieerd is'],
+  ['M-fase (mitose)','de cel verdeelt het DNA in twee identieke delen']
+];
+function genPhase(){
+  const it = pick(PHASES);
+  const wrong = shuffle(PHASES.filter(x=>x!==it).map(x=>x[1])).slice(0,3);
+  return {type:'mc', q:'Wat gebeurt er in de '+it[0]+'?', o:[it[1]].concat(wrong),
+    e:'Alle fasen: '+PHASES.map(p=>p[0]+': '+p[1]).join('; ')+'.'};
+}
+GENS.t4 = [[genDnaAmount,3],[genChrCount,3],[genPhase,1]];
+
+/* ---- t5: mitosefasen ---- */
+const MIT = [
+  ['profase','er ontstaat een spoelfiguur van trekdraden en het kernmembraan verdwijnt'],
+  ['metafase','de opgerolde chromosomen komen in het midden van de cel te liggen'],
+  ['anafase','de trekdraden verkorten, het centromeer splitst en de chromatiden gaan naar de polen'],
+  ['telofase','de chromosomen despiraliseren en rond beide groepen vormt zich een kernmembraan']
+];
+function genMitosis(){
+  const it = pick(MIT);
+  const wrong = shuffle(MIT.filter(x=>x!==it).map(x=>x[0])).slice(0,3);
+  return {type:'mc', q:'In welke fase van de mitose geldt: '+it[1]+'?', o:[it[0]].concat(wrong),
+    e:'Samengevat: '+MIT.map(m=>m[0]+' – '+m[1]).join('. ')+'.'};
+}
+GENS.t5 = [[genMitosis,3],[genChrCount,2]];
+
+/* ---- t6 en t7 ---- */
+function genBacteria(){
+  const mins = pick([40,60,80,100,120,140,160,180]);
+  const start = pick([1,2,4,5]);
+  const g = mins/20;
+  const ans = start*Math.pow(2,g);
+  return {type:'num',
+    q:'Een bacterie doorloopt onder gunstige omstandigheden een hele celcyclus in 20 minuten. Hoeveel bacteriën zijn er na '+mins+' minuten als je begint met '+start+' bacterie'+(start>1?'ën':'')+'? (Elke bacterie deelt in tweeën na elke celcyclus.)',
+    ans:ans,
+    e:mins+' minuten ÷ 20 minuten = '+g+' celcycli. Elke celcyclus verdubbelt het aantal: '+start+' × 2^'+g+' = '+start+' × '+Math.pow(2,g)+' = '+ans+' bacteriën.'};
+}
+const WALL = [
+  ['een bacterie','een stevige laag uit suikers en aminozuren'],
+  ['een schimmel','chitine (aan elkaar gekoppelde glucose-eenheden met een stikstofhoudende groep)'],
+  ['een plant','cellulose (opgebouwd uit glucose-eenheden)']
+];
+function genWall(){
+  const it = pick(WALL);
+  const wrong = WALL.filter(x=>x!==it).map(x=>x[1]).concat(['fosfolipiden en cholesterol']);
+  return {type:'mc', q:'Waaruit bestaat de celwand van '+it[0]+'?', o:[it[1]].concat(wrong),
+    e:'Bacterie: suikers en aminozuren. Schimmel: chitine (ook in het skelet van insecten). Plant: cellulose.'};
+}
+const PLASTID = [
+  ['groene plastide','chloroplast (bladgroenkorrel)','Fotosynthese vindt plaats in de chloroplasten.'],
+  ['oranjerode plastide','chromoplast','Chromoplasten geven rijp fruit (rozenbottels, tomaten) en wortels hun kleur.'],
+  ['kleurloze plastide','amyloplast','Amyloplasten zijn opslagplaatsen voor zetmeel (aardappelknol, tarwezaad).']
+];
+function genPlastid(){
+  const it = pick(PLASTID);
+  const wrong = PLASTID.filter(x=>x!==it).map(x=>x[1]).concat(['vacuole']);
+  return {type:'mc', q:'Om welk celonderdeel gaat het bij een '+it[0]+'?', o:[it[1]].concat(wrong), e:it[2]};
+}
+function genPetri(){
+  const names = shuffle(['A','B','C','D']);
+  let sizes;
+  do { sizes = names.map(()=>pick([0,0,3,4,5,6,8,10,12,14,16])); }
+  while (new Set(sizes).size < 3 || sizes.filter(s=>s===Math.max(...sizes)).length>1);
+  const max = Math.max(...sizes);
+  const best = names[sizes.indexOf(max)];
+  const lines = names.map((n,i)=>'Antibioticum '+n+': heldere kring van '+sizes[i]+' mm'+(sizes[i]===0?' (geen kring)':'')).join('\n');
+  return {type:'mc',
+    q:'Een medisch analist kweekt de ziekmakende bacterie van een patiënt in een petrischaal en legt er papiertjes met vier antibiotica in. Na een nacht meet hij rond elk papiertje de heldere plek:\n\n'+lines+'\n\nWelk antibioticum werkt het best tegen deze bacterie?',
+    o:['Antibioticum '+best].concat(names.filter(n=>n!==best).map(n=>'Antibioticum '+n)),
+    e:'Rond het papiertje zijn de bacteriën dood: daar is de plek helder. De grootste kring vormt zich rond het best werkende antibioticum. Hier is dat antibioticum '+best+' met '+max+' mm. '+(sizes.includes(0)?'Waar geen kring zit, werkt het middel niet tegen deze bacterie.':'')};
+}
+const CELLS = [
+  ['plantencel',['een celwand van cellulose, bladgroenkorrels (chloroplasten) en een grote vacuole','een celkern, een celwand van cellulose en plastiden zoals amyloplasten']],
+  ['schimmelcel',['een celkern, mitochondriën en een celwand van chitine','een celkern, ER, golgisysteem en een celwand waarvan de wanden tussen de cellen vaak gedeeltelijk open zijn']],
+  ['bacteriecel',['geen celkern, een cirkelvormig chromosoom dat los in het cytoplasma ligt, plasmiden en alleen ribosomen als organel','een celwand van suikers en aminozuren, geen celkern en een grootte van ongeveer 1–10 µm']],
+  ['dierlijke cel',['een celkern, mitochondriën, ER en golgisysteem, maar geen celwand en geen chloroplasten','een celkern, lysosomen, een cytoskelet en een celmembraan, maar geen celwand en geen grote vacuole']]
+];
+function genCellId(){
+  const it = pick(CELLS);
+  const feat = pick(it[1]);
+  const wrong = CELLS.filter(c=>c[0]!==it[0]).map(c=>c[0]);
+  return {type:'mc', q:'Een onderzoeker bekijkt onder een elektronenmicroscoop een cel met '+feat+'. Om welk type cel gaat het?',
+    o:[it[0]].concat(wrong),
+    e:'Vergelijk de kenmerken: plant = celwand van cellulose + chloroplasten + grote vacuole; schimmel = kern + celwand van chitine; bacterie = geen kern, plasmiden, alleen ribosomen; dierlijke cel = kern en organellen, geen celwand. Hier past het best: '+it[0]+'.'};
+}
+GENS.t6 = [];
+GENS.t7 = [[genBacteria,2],[genWall,1],[genPlastid,1],[genPetri,2],[genCellId,2]];
+
+/* ---------- spiekbrief (HTML) ---------- */
+function buildSheet(){
+  const rows=[]; const B='UCAG';
+  let ct='<table class="ct"><tr><th>1e basis</th><th colspan="4">2e basis</th><th>3e</th></tr>';
+  ct+='<tr><th></th>'+[...B].map(b=>'<th>'+b+'</th>').join('')+'<th></th></tr>';
+  for(const a of B){ for(let k=0;k<4;k++){
+    const c=B[k];
+    ct+='<tr>'+(k===0?'<th rowspan="4">'+a+'</th>':'');
+    for(const b of B){ ct+='<td>'+a+b+c+' '+CODONS[a+b+c]+'</td>'; }
+    ct+='<th>'+c+'</th></tr>';
+  } }
+  ct+='</table>';
+  return `
+  <h3>Organisatieniveaus (klein → groot)</h3>
+  <p>molecuul → organel → cel → weefsel → orgaan → orgaanstelsel → organisme → populatie → ecosysteem → systeem Aarde.</p>
+  <p><b>Emergente eigenschap:</b> ontstaat door samenwerking van onderdelen op een hoger niveau en is niet af te leiden uit de losse onderdelen (bijv. hardlopen).</p>
+  <h3>Celonderdelen</h3>
+  <ul>
+   <li><b>Celmembraan:</b> dubbele laag fosfolipiden + cholesterol + eiwitten; scheidt binnen en buiten. Transporteiwitten laten stoffen door, receptoreiwitten vangen signalen op.</li>
+   <li><b>Cytoplasma:</b> water met opgeloste stoffen, veel chemische reacties.</li>
+   <li><b>Kern:</b> DNA. <b>Ribosomen:</b> maken eiwitten. <b>ER:</b> transport van eiwitten. <b>Golgisysteem:</b> sorteert en verpakt. <b>Transportblaasjes:</b> vervoeren.</li>
+   <li><b>Lysosomen:</b> enzymen, verteren. <b>Mitochondriën:</b> energie (ATP). <b>Cytoskelet:</b> vorm en transportbanen.</li>
+  </ul>
+  <h3>DNA en RNA</h3>
+  <ul><li>DNA: dubbelstrengs, deoxyribose, basen A, C, G, T; A–T en C–G.</li>
+  <li>RNA: enkelstrengs, kort, ribose, basen A, C, G, U (U koppelt met A).</li>
+  <li>Codon = 3 basen in RNA = 1 aminozuur. Start: AUG (Met). Stop: UAA, UAG, UGA.</li>
+  <li>Puntmutatie = één basenpaar verandert. Genoommutatie = aantal DNA-moleculen verandert.</li></ul>
+  <h3>Celcyclus</h3>
+  <p>G₁ (groei) → S (DNA verdubbelt) → G₂ (voorbereiding, controle) → M (mitose). G₁+S+G₂ = interfase. G₀ = rustfase. Differentiatie door genexpressie.</p>
+  <h3>Chromosoom en mitose</h3>
+  <p>Chromosoom = DNA gewikkeld rond eiwitten, na S-fase twee identieke chromatiden bij het centromeer. Mitose: <b>profase</b> (spoelfiguur, kernmembraan weg) → <b>metafase</b> (midden) → <b>anafase</b> (chromatiden uit elkaar) → <b>telofase</b> (twee kernen, despiraliseren).</p>
+  <p>Tumor = ongecontroleerde celdeling door mutaties in regelgenen. Goedaardig: langzaam, ingesloten. Kwaadaardig = kanker: dringt binnen en kan uitzaaien (via bloed/lymfe).</p>
+  <h3>Biotechnologie</h3>
+  <p>Plasmide = klein ringvormig DNA in bacteriën. Recombinant-DNA = DNA uit verschillende organismen. Genetische modificatie = DNA aanpassen. Biotechnologie = organismen gebruiken om stoffen te maken (bijv. insuline). Stamcellen: niet-gespecialiseerd, blijven delen. Afstoting: witte bloedcellen breken lichaamsvreemde cellen af.</p>
+  <h3>Bacteriën, schimmels, planten</h3>
+  <ul><li>Bacterie: prokaryoot, geen kern, cirkelvormig chromosoom + plasmiden, alleen ribosomen, celwand (suikers + aminozuren), 1–10 µm, celcyclus soms 20 min.</li>
+  <li>Schimmel: eukaryoot, heterotroof, celwand van chitine, 10–100× groter dan bacteriën.</li>
+  <li>Plant: celwand van cellulose, grote vacuole (turgor), plastiden: chloroplast (fotosynthese), chromoplast (kleur), amyloplast (zetmeel); autotroof.</li>
+  <li>Fotosynthese: water + CO₂ + licht → glucose + O₂.</li></ul>
+  <h3>Codontabel (Binas 71G)</h3>`+ct;
+}
+
+if (false) module.exports = {TOPICS, STATIC, GENS, CODONS, RNA2DNA, DNA2DNA, shuffle, ri, pick, buildSheet};
+
+/* ===== Engine ===== */
+const KEY = 'sanne_bio';
+let DB = {history:[], topics:{}};
+try { DB = JSON.parse(localStorage.getItem(KEY)) || DB; } catch(e) {}
+if(!DB.history) DB.history=[]; if(!DB.topics) DB.topics={};
+function saveDB(){ try{ localStorage.setItem(KEY, JSON.stringify(DB)); }catch(e){} }
+
+const $ = id => document.getElementById(id);
+let mode = 'oefenen';
+let S = null; // sessie
+
+/* ---------- vragen voorbereiden ---------- */
+function prep(q, tid){
+  const o = Object.assign({}, q, {t: tid});
+  if(q.type==='mc'){
+    const arr = shuffle(q.o.map((x,i)=>({x:x, ok:i===0})));
+    o.opts = arr.map(a=>a.x);
+    o.ci = arr.findIndex(a=>a.ok);
+  } else if(q.type==='tf'){
+    o.opts = ['Waar','Niet waar'];
+    o.ci = q.c ? 0 : 1;
+  }
+  return o;
+}
+function genQ(g, tid){ return prep(g(), tid); }
+
+function buildSession(tid){
+  let qs = [];
+  if(tid==='all'){
+    let pool = [];
+    TOPICS.forEach(t => (STATIC[t.id]||[]).forEach(q => pool.push(prep(q, t.id))));
+    qs = shuffle(pool).slice(0, 24);
+    let gl = [];
+    TOPICS.forEach(t => (GENS[t.id]||[]).forEach(g => gl.push([g[0], t.id])));
+    gl = shuffle(gl);
+    for(let i=0;i<8 && gl.length;i++){ const g = gl[i % gl.length]; qs.push(genQ(g[0], g[1])); }
+  } else {
+    (STATIC[tid]||[]).forEach(q => qs.push(prep(q, tid)));
+    (GENS[tid]||[]).forEach(g => { for(let i=0;i<g[1];i++) qs.push(genQ(g[0], tid)); });
+  }
+  return shuffle(qs);
+}
+
+/* ---------- start ---------- */
+function startTopic(tid){
+  S = {tid:tid, mode:mode, qs:buildSession(tid), i:0, items:[], saved:false};
+  S.qs.forEach(()=>S.items.push({ok:null, shown:false}));
+  show('quiz'); renderQ();
+}
+function show(id){
+  ['home','quiz','result'].forEach(x => $(x).classList.toggle('hidden', x!==id));
+  window.scrollTo(0,0);
+}
+function goHome(){ renderHome(); show('home'); }
+
+/* ---------- home ---------- */
+function setMode(m){
+  mode = m;
+  $('modeOef').classList.toggle('on', m==='oefenen');
+  $('modeToets').classList.toggle('on', m==='toets');
+}
+function pct(t){ const d = DB.topics[t]; if(!d || !d.seen) return null; return Math.round(100*d.correct/d.seen); }
+function renderHome(){
+  let h = '';
+  TOPICS.forEach(t => {
+    const p = pct(t.id);
+    h += '<button class="tile" onclick="startTopic(\''+t.id+'\')"><span class="par">§'+t.par+' · '+t.goals+'</span><b>'+t.title+'</b>'+
+      '<span class="bar"><i style="width:'+(p||0)+'%"></i></span><span class="pc">'+(p===null?'nog niet geoefend':p+'% goed')+'</span></button>';
+  });
+  h += '<button class="tile exam" onclick="startTopic(\'all\')"><span class="par">Alles door elkaar</span><b>Examen-mix hoofdstuk 2</b><span class="pc">24 vragen uit alle paragrafen + 8 rekenopgaven</span></button>';
+  $('tiles').innerHTML = h;
+  let hist = '';
+  DB.history.slice(-6).reverse().forEach(x => {
+    hist += '<tr><td>'+x.date+'</td><td>'+x.where+'</td><td>'+(x.mode==='toets'?'Toets':'Oefenen')+'</td><td>'+x.score+'/'+x.max+'</td><td>'+x.grade+'</td></tr>';
+  });
+  $('hist').innerHTML = hist ? '<table class="ht"><tr><th>Datum</th><th>Onderwerp</th><th>Modus</th><th>Score</th><th>Cijfer</th></tr>'+hist+'</table>' : '<p class="soft">Nog geen sessies.</p>';
+}
+
+/* ---------- vraag tonen ---------- */
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function topicName(tid){ if(tid==='all') return 'Examen-mix'; const t = TOPICS.find(x=>x.id===tid); return '§'+t.par+' '+t.title; }
+
+function renderQ(){
+  const q = S.qs[S.i], it = S.items[S.i];
+  $('qWhere').textContent = (S.tid==='all' ? 'Examen-mix · §'+TOPICS.find(x=>x.id===q.t).par : topicName(S.tid)) + ' · ' + (S.mode==='toets'?'Toets':'Oefenen');
+  $('qCount').textContent = (S.i+1)+' / '+S.qs.length;
+  $('qProg').style.width = (100*S.i/S.qs.length)+'%';
+  $('qText').textContent = q.q;
+  $('qFb').className = 'fb hidden'; $('qFb').innerHTML = '';
+  let b = '';
+  if(q.type==='mc' || q.type==='tf'){
+    q.opts.forEach((o,i) => { b += '<button class="opt" data-i="'+i+'" onclick="pickOpt('+i+')">'+esc(o)+'</button>'; });
+  } else if(q.type==='num'){
+    b = '<input id="inNum" class="inp" inputmode="decimal" placeholder="Jouw antwoord (getal)" oninput="inputChanged()">';
+  } else if(q.type==='txt'){
+    q.steps.forEach((s,i) => { b += '<label class="lab">'+esc(s.label)+'</label><input class="inp stepin" data-i="'+i+'" autocomplete="off" autocapitalize="off" spellcheck="false" oninput="inputChanged()">'; });
+  } else if(q.type==='open'){
+    b = '<textarea id="inOpen" class="inp" rows="4" placeholder="Schrijf je antwoord zoals je het op de toets zou doen…" oninput="inputChanged()"></textarea>';
+  }
+  $('qBody').innerHTML = b;
+  const btn = $('qBtn'); btn.disabled = true;
+  btn.textContent = (S.mode==='toets') ? (S.i===S.qs.length-1 ? 'Afronden' : 'Volgende') : (q.type==='open' ? 'Toon antwoord' : 'Controleer');
+  btn.onclick = onMain;
+  S.sel = null;
+}
+function pickOpt(i){
+  if(S.items[S.i].shown) return;
+  S.sel = i;
+  document.querySelectorAll('#qBody .opt').forEach(el => el.classList.toggle('sel', +el.dataset.i===i));
+  $('qBtn').disabled = false;
+}
+function inputChanged(){
+  const q = S.qs[S.i]; let ok = false;
+  if(q.type==='num') ok = $('inNum').value.trim()!=='';
+  else if(q.type==='open') ok = $('inOpen').value.trim()!=='' || S.mode==='toets';
+  else if(q.type==='txt') ok = [...document.querySelectorAll('.stepin')].every(e => e.value.trim()!=='');
+  if(q.type==='open' && S.mode==='oefenen') ok = true;
+  $('qBtn').disabled = !ok;
+}
+
+/* ---------- beoordelen ---------- */
+function normNum(s){ return parseFloat(String(s).replace(',', '.').replace(/[^0-9.\-]/g,'')); }
+function checkStep(st, v){
+  if(st.kind==='rna') return v.toUpperCase().replace(/[^ACGUT]/g,'') === st.ans;
+  if(st.kind==='dna') return v.toUpperCase().replace(/[^ACGUT]/g,'') === st.ans;
+  if(st.kind==='aa'){
+    const g = v.toLowerCase().split(/[^a-z]+/).filter(Boolean);
+    const a = st.ans.map(x=>x.toLowerCase());
+    return g.length===a.length && g.every((x,i)=>x===a[i]);
+  }
+  return false;
+}
+function gradeCurrent(){
+  const q = S.qs[S.i], it = S.items[S.i];
+  if(q.type==='mc' || q.type==='tf'){ it.given = q.opts[S.sel]; it.ok = (S.sel===q.ci) ? 1 : 0; }
+  else if(q.type==='num'){ const v = normNum($('inNum').value); it.given = $('inNum').value; it.ok = (Math.abs(v - q.ans) < 1e-9) ? 1 : 0; }
+  else if(q.type==='txt'){
+    const vals = [...document.querySelectorAll('.stepin')].map(e=>e.value);
+    it.vals = vals;
+    it.stepOk = q.steps.map((s,i)=>checkStep(s, vals[i]));
+    it.ok = it.stepOk.every(Boolean) ? 1 : 0;
+    it.given = vals.join(' | ');
+  }
+  else if(q.type==='open'){ it.given = $('inOpen').value; it.ok = null; }
+}
+function answerText(q){
+  if(q.type==='mc' || q.type==='tf') return q.opts[q.ci];
+  if(q.type==='num') return String(q.ans);
+  if(q.type==='txt') return q.steps.map(s => s.label+': '+(Array.isArray(s.ans)?s.ans.join(' '):s.ans)).join('\n');
+  return q.m;
+}
+function onMain(){
+  const q = S.qs[S.i], it = S.items[S.i];
+  if(S.mode==='toets'){
+    gradeCurrent(); it.shown = true;
+    if(S.i < S.qs.length-1){ S.i++; renderQ(); } else finish();
+    return;
+  }
+  // oefenen
+  if(!it.shown){
+    gradeCurrent(); it.shown = true; showFeedback(q, it);
+  } else {
+    if(S.i < S.qs.length-1){ S.i++; renderQ(); } else finish();
+  }
+}
+function showFeedback(q, it){
+  const fb = $('qFb'); let h = '';
+  if(q.type==='open'){
+    h = '<div class="ft">Zo kan het antwoord eruit zien</div><div class="fbody pre">'+esc(q.m)+'</div>'+
+        '<div class="fbody"><b>Uitleg:</b> '+esc(q.e||'')+'</div>'+
+        '<div class="self"><button class="btn soft" onclick="selfMark(1)">Ik had het goed ✓</button><button class="btn soft" onclick="selfMark(0)">Niet helemaal ✗</button></div>';
+    fb.className = 'fb neutral'; fb.innerHTML = h;
+    $('qBtn').disabled = true; $('qBtn').textContent = (S.i===S.qs.length-1)?'Afronden':'Volgende';
+    return;
+  }
+  const good = it.ok===1;
+  h += '<div class="ft">'+(good?'✓ Goed!':'✗ Net niet')+'</div>';
+  if(q.type==='txt'){
+    h += '<div class="fbody">'+q.steps.map((s,i)=>'<div class="stp '+(it.stepOk[i]?'g':'r')+'">'+(it.stepOk[i]?'✓':'✗')+' '+esc(s.label)+': jouw antwoord <i>'+esc(it.vals[i])+'</i>'+(it.stepOk[i]?'':' → juiste antwoord: <b>'+esc(Array.isArray(s.ans)?s.ans.join(' '):s.ans)+'</b>')+'</div>').join('')+'</div>';
+  } else if(!good){
+    h += '<div class="fbody">Juiste antwoord: <b>'+esc(answerText(q))+'</b></div>';
+  }
+  h += '<div class="fbody pre"><b>Uitleg:</b> '+esc(q.e||'')+'</div>';
+  fb.className = 'fb '+(good?'good':'bad'); fb.innerHTML = h;
+  if(q.type==='mc' || q.type==='tf'){
+    document.querySelectorAll('#qBody .opt').forEach(el => {
+      const i = +el.dataset.i; el.disabled = true;
+      if(i===q.ci) el.classList.add('right'); else if(i===S.sel) el.classList.add('wrong');
+    });
+  }
+  const btn = $('qBtn'); btn.disabled = false; btn.textContent = (S.i===S.qs.length-1)?'Afronden':'Volgende';
+}
+function selfMark(v){
+  const it = S.items[S.i]; it.ok = v;
+  document.querySelectorAll('.self button').forEach(b=>b.disabled=true);
+  const fb = $('qFb'); fb.className = 'fb '+(v?'good':'bad');
+  $('qBtn').disabled = false;
+}
+
+/* ---------- resultaat ---------- */
+function scoreOf(){ let s=0, m=0; S.items.forEach(x => { m++; if(x.ok===1) s++; }); return [s,m]; }
+function gradeStr(s,m){ const g = Math.max(1, Math.round((1+9*s/m)*10)/10); return g.toFixed(1).replace('.',','); }
+function finish(){
+  show('result'); renderResult(true);
+}
+function renderResult(first){
+  const [s,m] = scoreOf();
+  $('rWhere').textContent = topicName(S.tid)+' · '+(S.mode==='toets'?'Toets':'Oefenen');
+  $('rScore').textContent = s+'/'+m;
+  $('rGrade').textContent = 'Cijferindicatie: '+gradeStr(s,m);
+  const pend = S.items.filter(x=>x.ok===null).length;
+  $('rNote').textContent = pend ? 'Je hebt nog '+pend+' open vraag/vragen om na te kijken (hieronder). De score telt pas mee na jouw beoordeling.' : '';
+  // detail
+  let h = '';
+  S.qs.forEach((q,i) => {
+    const it = S.items[i];
+    const cls = it.ok===1 ? 'g' : (it.ok===0 ? 'r' : 'n');
+    h += '<div class="rv '+cls+'"><div class="rq">'+(i+1)+'. '+esc(q.q)+'</div>';
+    h += '<div class="ra"><b>Jouw antwoord:</b> '+esc(it.given||'—')+'</div>';
+    if(it.ok!==1){ h += '<div class="ra"><b>Juiste antwoord:</b> <span class="pre">'+esc(answerText(q))+'</span></div>'; }
+    h += '<div class="ra pre"><b>Uitleg:</b> '+esc(q.e||'')+'</div>';
+    if(it.ok===null){ h += '<div class="self"><button class="btn soft" onclick="markLater('+i+',1)">Ik had het goed ✓</button><button class="btn soft" onclick="markLater('+i+',0)">Niet helemaal ✗</button></div>'; }
+    h += '</div>';
+  });
+  $('rDetail').innerHTML = h;
+  $('rRetry').style.display = S.items.some(x=>x.ok===0) ? '' : 'none';
+  if(first && !S.saved){ S.saved = true; commit(); }
+  else if(S.saved) updateLast();
+}
+function markLater(i, v){ S.items[i].ok = v; S.qs[i]._counted = false; renderResult(false); }
+function commit(){
+  S.items.forEach((x,i) => {
+    const q = S.qs[i];
+    if(x.ok!==null){ const d = DB.topics[q.t] || (DB.topics[q.t] = {seen:0, correct:0}); d.seen++; if(x.ok===1) d.correct++; q._counted = true; }
+  });
+  const [s,m] = scoreOf();
+  const d = new Date();
+  DB.history.push({date: d.toLocaleDateString('nl-NL')+' '+d.toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'}), where: topicName(S.tid), mode:S.mode, score:s, max:m, grade:gradeStr(s,m)});
+  saveDB();
+}
+function updateLast(){
+  S.items.forEach((x,i) => {
+    const q = S.qs[i];
+    if(x.ok!==null && !q._counted){ const d = DB.topics[q.t] || (DB.topics[q.t] = {seen:0, correct:0}); d.seen++; if(x.ok===1) d.correct++; q._counted = true; }
+  });
+  const [s,m] = scoreOf(); const h = DB.history[DB.history.length-1];
+  if(h){ h.score = s; h.grade = gradeStr(s,m); }
+  saveDB();
+}
+function retryWrong(){
+  const wrong = S.qs.filter((q,i)=>S.items[i].ok===0).map(q => q.type==='mc' || q.type==='tf' ? prep(q, q.t) : Object.assign({}, q));
+  if(!wrong.length) return;
+  const m = (S.mode==='toets') ? 'oefenen' : S.mode; // fouten altijd mét uitleg
+  S = {tid:S.tid, mode:'oefenen', qs:shuffle(wrong), i:0, items:[], saved:false};
+  S.qs.forEach(()=>S.items.push({ok:null, shown:false}));
+  show('quiz'); renderQ();
+}
+
+/* ---------- overig ---------- */
+function openSheet(){ $('sheetBody').innerHTML = buildSheet(); $('overlay').classList.add('on'); }
+function closeSheet(){ $('overlay').classList.remove('on'); }
+function exportData(){
+  const blob = new Blob([JSON.stringify(DB,null,2)], {type:'application/json'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'biologie-voortgang-sanne.json'; a.click();
+}
+function wipe(){
+  if(confirm('Weet je zeker dat je al je voortgang wilt wissen?')){ DB = {history:[], topics:{}}; saveDB(); renderHome(); }
+}
+document.addEventListener('DOMContentLoaded', () => { setMode('oefenen'); renderHome(); });
+
+</script>
+</body>
+</html>
