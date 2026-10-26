@@ -641,7 +641,7 @@ function genLevelNext(){
   const ans = after ? LEVELS[i+1] : LEVELS[i];
   const dir = after ? 'direct boven' : 'direct onder';
   const wrong = shuffle(LEVELS.filter(l=>l!==ans && l!==LEVELS[ref])).slice(0,3);
-  return {type:'mc', q:'Welk organisatieniveau ligt '+dir+' het niveau ‘'+LEVELS[ref]+'’? (van klein naar groot: molecuul – organel – cel – weefsel – orgaan – orgaanstelsel – organisme – populatie – ecosysteem – systeem Aarde)',
+  return {type:'mc', q:'Welk organisatieniveau ligt '+dir+' het niveau ‘'+LEVELS[ref]+'’?',
     o:[ans].concat(wrong),
     e:'De volgorde van klein naar groot is: '+LEVELS.join(' → ')+'. Onder ‘'+LEVELS[ref]+'’ zit ‘'+(LEVELS[ref-1]||'—')+'’, erboven ‘'+(LEVELS[ref+1]||'—')+'’. Het antwoord is dus ‘'+ans+'’.'};
 }
@@ -649,13 +649,13 @@ const LEVEL_EX = [
   ['een hartspiercel','cel','Een enkele cel is het laagste niveau met alle levenskenmerken.'],
   ['de maag','orgaan','De maag bestaat uit verschillende weefsels die samenwerken aan een taak: een orgaan.'],
   ['een kudde olifanten van dezelfde soort in de savanne','populatie','Soortgenoten in hetzelfde gebied: een populatie.'],
-  ['het spijsverteringsstelsel (maag, darmen, lever…)','orgaanstelsel','Alle organen die aan dezelfde taak werken: een orgaanstelsel.'],
+  ['maag, darmen, lever en alvleesklier samen, die allemaal meewerken aan de vertering van voedsel','orgaanstelsel','Alle organen die aan dezelfde taak werken: een orgaanstelsel.'],
   ['een mitochondrium','organel','Een onderdeel van een cel met een bepaalde functie: een organel.'],
-  ['een savanne met alle planten, dieren en de bodem en het water','ecosysteem','Organismen mét de levenloze natuur in een begrensd gebied: een ecosysteem.'],
+  ['een savanne met alle planten, dieren, de bodem en het water en hun onderlinge relaties','ecosysteem','Organismen mét de levenloze natuur in een begrensd gebied: een ecosysteem.'],
   ['spierweefsel in je bovenarm','weefsel','Een groep cellen met dezelfde bouw en functie: weefsel.'],
-  ['een watermolecuul','molecuul','Twee of meer atomen die aan elkaar zitten: een molecuul.'],
+  ['H₂O (twee waterstofatomen en een zuurstofatoom die aan elkaar vastzitten)','molecuul','Twee of meer atomen die aan elkaar zitten: een molecuul.'],
   ['één eekhoorn','organisme','Eén levend wezen: een organisme.'],
-  ['alle ecosystemen van de planeet samen','systeem Aarde','Alle ecosystemen samen vormen systeem Aarde.']
+  ['alle gebieden met levende wezens en levenloze natuur op de hele planeet samen','systeem Aarde','Alle ecosystemen samen vormen systeem Aarde.']
 ];
 function genLevelEx(){
   const it = pick(LEVEL_EX);
